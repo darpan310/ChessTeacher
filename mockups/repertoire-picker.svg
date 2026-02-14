@@ -1,0 +1,50 @@
+<svg xmlns="http://www.w3.org/2000/svg" width="1440" height="900" viewBox="0 0 1440 900">
+  <defs>
+    <linearGradient id="bg2" x1="0" y1="0" x2="1" y2="1">
+      <stop offset="0%" stop-color="#f8f9fa"/>
+      <stop offset="100%" stop-color="#edf6f9"/>
+    </linearGradient>
+  </defs>
+  <rect width="1440" height="900" fill="url(#bg2)"/>
+  <rect x="40" y="32" width="1360" height="72" rx="18" fill="#22223b"/>
+  <text x="80" y="77" font-size="30" font-family="Avenir, Helvetica, sans-serif" fill="#f2e9e4">Pick Repertoire</text>
+
+  <rect x="40" y="130" width="420" height="120" rx="20" fill="#4a4e69"/>
+  <text x="70" y="180" font-size="30" font-family="Avenir, Helvetica, sans-serif" fill="#fff">Train as White</text>
+  <text x="70" y="218" font-size="20" font-family="Avenir, Helvetica, sans-serif" fill="#c9d6df">Mainline plans + fast development</text>
+
+  <rect x="480" y="130" width="420" height="120" rx="20" fill="#9a8c98"/>
+  <text x="510" y="180" font-size="30" font-family="Avenir, Helvetica, sans-serif" fill="#fff">Train as Black</text>
+  <text x="510" y="218" font-size="20" font-family="Avenir, Helvetica, sans-serif" fill="#f2e9e4">Counter both 1.e4 and 1.d4</text>
+
+  <rect x="920" y="130" width="480" height="120" rx="20" fill="#f2e9e4"/>
+  <text x="950" y="180" font-size="26" font-family="Avenir, Helvetica, sans-serif" fill="#22223b">Opponent First Move</text>
+  <text x="950" y="218" font-size="24" font-family="Avenir, Helvetica, sans-serif" fill="#4a4e69">1.e4   |   1.d4</text>
+
+  <rect x="40" y="280" width="430" height="260" rx="18" fill="#ffffff"/>
+  <text x="70" y="334" font-size="34" font-family="Avenir, Helvetica, sans-serif" fill="#1d3557">Italian Game</text>
+  <text x="70" y="377" font-size="22" font-family="Avenir, Helvetica, sans-serif" fill="#457b9d">Mainline + 3 practical deviations</text>
+  <text x="70" y="418" font-size="22" font-family="Avenir, Helvetica, sans-serif" fill="#457b9d">Readiness: 78%</text>
+  <rect x="70" y="450" width="180" height="46" rx="10" fill="#2a9d8f"/>
+  <text x="98" y="480" font-size="22" font-family="Avenir, Helvetica, sans-serif" fill="#fff">Train Now</text>
+
+  <rect x="505" y="280" width="430" height="260" rx="18" fill="#ffffff"/>
+  <text x="535" y="334" font-size="34" font-family="Avenir, Helvetica, sans-serif" fill="#1d3557">Sicilian Defense</text>
+  <text x="535" y="377" font-size="22" font-family="Avenir, Helvetica, sans-serif" fill="#457b9d">Najdorf-lite practical setup</text>
+  <text x="535" y="418" font-size="22" font-family="Avenir, Helvetica, sans-serif" fill="#457b9d">Readiness: 66%</text>
+  <rect x="535" y="450" width="180" height="46" rx="10" fill="#2a9d8f"/>
+  <text x="563" y="480" font-size="22" font-family="Avenir, Helvetica, sans-serif" fill="#fff">Train Now</text>
+
+  <rect x="970" y="280" width="430" height="260" rx="18" fill="#ffffff"/>
+  <text x="1000" y="334" font-size="34" font-family="Avenir, Helvetica, sans-serif" fill="#1d3557">Caro-Kann</text>
+  <text x="1000" y="377" font-size="22" font-family="Avenir, Helvetica, sans-serif" fill="#457b9d">Solid center, clear plans</text>
+  <text x="1000" y="418" font-size="22" font-family="Avenir, Helvetica, sans-serif" fill="#457b9d">Readiness: 74%</text>
+  <rect x="1000" y="450" width="180" height="46" rx="10" fill="#2a9d8f"/>
+  <text x="1028" y="480" font-size="22" font-family="Avenir, Helvetica, sans-serif" fill="#fff">Train Now</text>
+
+  <rect x="40" y="575" width="1360" height="270" rx="20" fill="#22223b"/>
+  <text x="70" y="630" font-size="30" font-family="Avenir, Helvetica, sans-serif" fill="#f2e9e4">Why this is easier than opening trees</text>
+  <text x="70" y="676" font-size="24" font-family="Avenir, Helvetica, sans-serif" fill="#c9ada7">- You only see 1 mainline + a few common responses first</text>
+  <text x="70" y="714" font-size="24" font-family="Avenir, Helvetica, sans-serif" fill="#c9ada7">- Every move has a practical reason in plain language</text>
+  <text x="70" y="752" font-size="24" font-family="Avenir, Helvetica, sans-serif" fill="#c9ada7">- Review queue auto-focuses your weak lines</text>
+</svg>

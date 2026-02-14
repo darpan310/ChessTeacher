@@ -1,0 +1,44 @@
+<svg xmlns="http://www.w3.org/2000/svg" width="1440" height="900" viewBox="0 0 1440 900">
+  <defs>
+    <linearGradient id="bg" x1="0" y1="0" x2="1" y2="1">
+      <stop offset="0%" stop-color="#f7f6f2"/>
+      <stop offset="100%" stop-color="#e2eee8"/>
+    </linearGradient>
+  </defs>
+  <rect width="1440" height="900" fill="url(#bg)"/>
+
+  <rect x="34" y="24" width="1372" height="74" rx="16" fill="#102a43"/>
+  <text x="62" y="72" font-size="30" font-family="Avenir, Helvetica, sans-serif" fill="#f0f4f8">Line Practice · Italian Game</text>
+  <text x="1130" y="72" font-size="22" font-family="Avenir, Helvetica, sans-serif" fill="#d9e2ec">Mainline A</text>
+
+  <rect x="34" y="116" width="906" height="122" rx="16" fill="#ffffff"/>
+  <text x="62" y="163" font-size="34" font-family="Avenir, Helvetica, sans-serif" fill="#1d3557">Selected Line: 1.e4 e5 2.Nf3 Nc6 3.Bc4 Bc5 4.c3 Nf6 5.d4</text>
+  <text x="62" y="202" font-size="22" font-family="Avenir, Helvetica, sans-serif" fill="#457b9d">Goal: Learn the central break plan and rehearse responses to ...Nf6.</text>
+
+  <rect x="962" y="116" width="444" height="122" rx="16" fill="#0b3c49"/>
+  <text x="992" y="162" font-size="28" font-family="Avenir, Helvetica, sans-serif" fill="#e8f1f2">Session Options</text>
+  <text x="992" y="198" font-size="21" font-family="Avenir, Helvetica, sans-serif" fill="#b6d7de">Learn: 10 steps · Drill: 18 prompts</text>
+
+  <rect x="34" y="262" width="650" height="604" rx="18" fill="#ffffff"/>
+  <rect x="74" y="302" width="570" height="570" fill="#d9c5a0"/>
+  <text x="264" y="590" font-size="44" font-family="Avenir, Helvetica, sans-serif" fill="#334155">Board Preview</text>
+
+  <rect x="708" y="262" width="698" height="196" rx="18" fill="#ffffff"/>
+  <text x="736" y="316" font-size="31" font-family="Avenir, Helvetica, sans-serif" fill="#1d3557">Step 1 Prompt</text>
+  <text x="736" y="356" font-size="24" font-family="Avenir, Helvetica, sans-serif" fill="#457b9d">You are White. Play the first move of this line.</text>
+  <text x="736" y="393" font-size="24" font-family="Avenir, Helvetica, sans-serif" fill="#457b9d">Hint available after one wrong attempt.</text>
+
+  <rect x="708" y="478" width="698" height="176" rx="18" fill="#eef6f8"/>
+  <text x="736" y="531" font-size="29" font-family="Avenir, Helvetica, sans-serif" fill="#1d3557">What You Will Learn</text>
+  <text x="736" y="569" font-size="22" font-family="Avenir, Helvetica, sans-serif" fill="#457b9d">1. Why Bc4 pressures f7 in practical games</text>
+  <text x="736" y="603" font-size="22" font-family="Avenir, Helvetica, sans-serif" fill="#457b9d">2. When to play c3 + d4 safely</text>
+  <text x="736" y="637" font-size="22" font-family="Avenir, Helvetica, sans-serif" fill="#457b9d">3. Most common Black deviations and responses</text>
+
+  <rect x="708" y="674" width="336" height="84" rx="14" fill="#2a9d8f"/>
+  <text x="794" y="727" font-size="34" font-family="Avenir, Helvetica, sans-serif" fill="#ffffff">Start Learn</text>
+  <rect x="1070" y="674" width="336" height="84" rx="14" fill="#e9c46a"/>
+  <text x="1164" y="727" font-size="34" font-family="Avenir, Helvetica, sans-serif" fill="#1b1b1b">Start Drill</text>
+
+  <rect x="708" y="778" width="698" height="88" rx="14" fill="#ffffff"/>
+  <text x="736" y="832" font-size="24" font-family="Avenir, Helvetica, sans-serif" fill="#1d3557">Recent performance on this line: Accuracy 81% · Last practiced 2 days ago</text>
+</svg>

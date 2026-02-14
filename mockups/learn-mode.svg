@@ -1,0 +1,35 @@
+<svg xmlns="http://www.w3.org/2000/svg" width="1440" height="900" viewBox="0 0 1440 900">
+  <rect width="1440" height="900" fill="#f7f7f2"/>
+  <rect x="40" y="28" width="1360" height="72" rx="18" fill="#0b3c49"/>
+  <text x="78" y="74" font-size="30" font-family="Avenir, Helvetica, sans-serif" fill="#e8f1f2">Learn Mode · Italian Game</text>
+
+  <rect x="40" y="130" width="620" height="620" rx="16" fill="#ffffff"/>
+  <rect x="78" y="168" width="544" height="544" fill="#d9c5a0"/>
+  <g>
+    <rect x="78" y="168" width="68" height="68" fill="#f5e6c8"/><rect x="146" y="168" width="68" height="68" fill="#b58863"/>
+    <rect x="214" y="168" width="68" height="68" fill="#f5e6c8"/><rect x="282" y="168" width="68" height="68" fill="#b58863"/>
+    <rect x="350" y="168" width="68" height="68" fill="#f5e6c8"/><rect x="418" y="168" width="68" height="68" fill="#b58863"/>
+    <rect x="486" y="168" width="68" height="68" fill="#f5e6c8"/><rect x="554" y="168" width="68" height="68" fill="#b58863"/>
+  </g>
+  <text x="210" y="445" font-size="44" font-family="Avenir, Helvetica, sans-serif" fill="#2d3748">Chessboard</text>
+
+  <rect x="700" y="130" width="700" height="220" rx="18" fill="#0b3c49"/>
+  <text x="735" y="186" font-size="30" font-family="Avenir, Helvetica, sans-serif" fill="#e8f1f2">Current Move: 3.Bc4</text>
+  <text x="735" y="232" font-size="23" font-family="Avenir, Helvetica, sans-serif" fill="#b6d7de">Why: Develop quickly and pressure f7, Black's weakest point early.</text>
+  <text x="735" y="270" font-size="23" font-family="Avenir, Helvetica, sans-serif" fill="#b6d7de">Plan: Castle kingside, then c3 + d4 to claim the center.</text>
+
+  <rect x="700" y="370" width="700" height="180" rx="18" fill="#ffffff"/>
+  <text x="735" y="424" font-size="28" font-family="Avenir, Helvetica, sans-serif" fill="#1d3557">If Opponent Plays ...Nf6</text>
+  <text x="735" y="466" font-size="23" font-family="Avenir, Helvetica, sans-serif" fill="#457b9d">Answer with d3 to hold e4 and keep smooth development.</text>
+  <text x="735" y="503" font-size="23" font-family="Avenir, Helvetica, sans-serif" fill="#457b9d">Avoid greedy attacks before castling.</text>
+
+  <rect x="700" y="575" width="340" height="66" rx="12" fill="#2a9d8f"/>
+  <text x="820" y="618" font-size="30" font-family="Avenir, Helvetica, sans-serif" fill="#fff">Next Step</text>
+  <rect x="1060" y="575" width="340" height="66" rx="12" fill="#e9c46a"/>
+  <text x="1164" y="618" font-size="30" font-family="Avenir, Helvetica, sans-serif" fill="#1b1b1b">Drill Me</text>
+
+  <rect x="700" y="665" width="700" height="185" rx="18" fill="#ffffff"/>
+  <text x="735" y="718" font-size="28" font-family="Avenir, Helvetica, sans-serif" fill="#1d3557">Line Progress</text>
+  <text x="735" y="758" font-size="23" font-family="Avenir, Helvetica, sans-serif" fill="#457b9d">Step 4 of 10 · Mainline A</text>
+  <text x="735" y="796" font-size="23" font-family="Avenir, Helvetica, sans-serif" fill="#457b9d">Mastery after this lesson: 63 -> 69</text>
+</svg>

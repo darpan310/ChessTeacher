@@ -1,0 +1,36 @@
+<svg xmlns="http://www.w3.org/2000/svg" width="1440" height="900" viewBox="0 0 1440 900">
+  <rect width="1440" height="900" fill="#f1f5f9"/>
+
+  <rect x="34" y="24" width="1372" height="74" rx="16" fill="#1e293b"/>
+  <text x="62" y="72" font-size="30" font-family="Avenir, Helvetica, sans-serif" fill="#e2e8f0">Drill Session · Italian Mainline A</text>
+  <text x="1126" y="72" font-size="22" font-family="Avenir, Helvetica, sans-serif" fill="#94a3b8">Prompt 4 / 18</text>
+
+  <rect x="34" y="116" width="650" height="720" rx="18" fill="#ffffff"/>
+  <rect x="74" y="156" width="570" height="570" fill="#d9c5a0"/>
+  <text x="215" y="456" font-size="46" font-family="Avenir, Helvetica, sans-serif" fill="#334155">Solve This Position</text>
+  <text x="148" y="775" font-size="30" font-family="Avenir, Helvetica, sans-serif" fill="#1d3557">White to move: find the repertoire move</text>
+
+  <rect x="708" y="116" width="698" height="200" rx="18" fill="#ffffff"/>
+  <text x="736" y="170" font-size="33" font-family="Avenir, Helvetica, sans-serif" fill="#0f172a">Your Move</text>
+  <text x="736" y="212" font-size="23" font-family="Avenir, Helvetica, sans-serif" fill="#475569">Line context: 1.e4 e5 2.Nf3 Nc6 3.Bc4 Bc5</text>
+  <text x="736" y="246" font-size="23" font-family="Avenir, Helvetica, sans-serif" fill="#475569">Expected idea: prepare central break while staying safe.</text>
+  <rect x="736" y="264" width="210" height="44" rx="10" fill="#0ea5e9"/>
+  <text x="793" y="293" font-size="24" font-family="Avenir, Helvetica, sans-serif" fill="#fff">Submit</text>
+
+  <rect x="708" y="336" width="698" height="190" rx="18" fill="#082f49"/>
+  <text x="736" y="390" font-size="32" font-family="Avenir, Helvetica, sans-serif" fill="#e0f2fe">Result</text>
+  <text x="736" y="432" font-size="24" font-family="Avenir, Helvetica, sans-serif" fill="#bae6fd">Correct: 4.c3</text>
+  <text x="736" y="466" font-size="24" font-family="Avenir, Helvetica, sans-serif" fill="#bae6fd">Reason: supports d4 and prevents early tactical issues.</text>
+  <text x="736" y="500" font-size="24" font-family="Avenir, Helvetica, sans-serif" fill="#bae6fd">Response time: 4.2s</text>
+
+  <rect x="708" y="546" width="338" height="86" rx="14" fill="#2a9d8f"/>
+  <text x="805" y="600" font-size="33" font-family="Avenir, Helvetica, sans-serif" fill="#ffffff">Next Prompt</text>
+  <rect x="1068" y="546" width="338" height="86" rx="14" fill="#e2e8f0"/>
+  <text x="1149" y="600" font-size="33" font-family="Avenir, Helvetica, sans-serif" fill="#1e293b">Show Line</text>
+
+  <rect x="708" y="652" width="698" height="184" rx="18" fill="#ffffff"/>
+  <text x="736" y="705" font-size="30" font-family="Avenir, Helvetica, sans-serif" fill="#0f172a">Session Stats</text>
+  <text x="736" y="743" font-size="23" font-family="Avenir, Helvetica, sans-serif" fill="#334155">Accuracy: 75% · Streak: 3 · Avg time: 5.1s</text>
+  <text x="736" y="777" font-size="23" font-family="Avenir, Helvetica, sans-serif" fill="#334155">Weak spot: handling ...Nf6 in move 4-6 window</text>
+  <text x="736" y="811" font-size="23" font-family="Avenir, Helvetica, sans-serif" fill="#334155">Mastery impact this session: +4</text>
+</svg>

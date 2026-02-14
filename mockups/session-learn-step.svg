@@ -1,0 +1,34 @@
+<svg xmlns="http://www.w3.org/2000/svg" width="1440" height="900" viewBox="0 0 1440 900">
+  <rect width="1440" height="900" fill="#f6f8f3"/>
+
+  <rect x="34" y="24" width="1372" height="74" rx="16" fill="#12324a"/>
+  <text x="62" y="72" font-size="30" font-family="Avenir, Helvetica, sans-serif" fill="#eef5fb">Learn Session · Italian Mainline A</text>
+  <text x="1160" y="72" font-size="22" font-family="Avenir, Helvetica, sans-serif" fill="#c9d9e8">Step 1 / 10</text>
+
+  <rect x="34" y="116" width="650" height="720" rx="18" fill="#ffffff"/>
+  <rect x="74" y="156" width="570" height="570" fill="#d9c5a0"/>
+  <text x="255" y="455" font-size="46" font-family="Avenir, Helvetica, sans-serif" fill="#334155">Interactive Board</text>
+  <text x="190" y="775" font-size="30" font-family="Avenir, Helvetica, sans-serif" fill="#1d3557">Play White's first move in the line</text>
+
+  <rect x="708" y="116" width="698" height="184" rx="18" fill="#12324a"/>
+  <text x="736" y="170" font-size="31" font-family="Avenir, Helvetica, sans-serif" fill="#f1f7fd">Instruction</text>
+  <text x="736" y="210" font-size="24" font-family="Avenir, Helvetica, sans-serif" fill="#c7d9ea">Play: 1.e4</text>
+  <text x="736" y="246" font-size="23" font-family="Avenir, Helvetica, sans-serif" fill="#c7d9ea">Why: claim center space and open lines for bishop/queen.</text>
+
+  <rect x="708" y="320" width="698" height="198" rx="18" fill="#ffffff"/>
+  <text x="736" y="374" font-size="31" font-family="Avenir, Helvetica, sans-serif" fill="#1d3557">Coach Note</text>
+  <text x="736" y="414" font-size="23" font-family="Avenir, Helvetica, sans-serif" fill="#457b9d">At 1000 Elo, opponents often ignore center control.</text>
+  <text x="736" y="448" font-size="23" font-family="Avenir, Helvetica, sans-serif" fill="#457b9d">After 1.e4, prioritize development over early pawn grabs.</text>
+  <text x="736" y="482" font-size="23" font-family="Avenir, Helvetica, sans-serif" fill="#457b9d">If unsure next, aim for Nf3 then Bc4.</text>
+
+  <rect x="708" y="538" width="338" height="86" rx="14" fill="#2a9d8f"/>
+  <text x="809" y="592" font-size="33" font-family="Avenir, Helvetica, sans-serif" fill="#ffffff">Check Move</text>
+  <rect x="1068" y="538" width="338" height="86" rx="14" fill="#e9c46a"/>
+  <text x="1178" y="592" font-size="33" font-family="Avenir, Helvetica, sans-serif" fill="#1b1b1b">Hint</text>
+
+  <rect x="708" y="644" width="698" height="192" rx="18" fill="#ffffff"/>
+  <text x="736" y="698" font-size="30" font-family="Avenir, Helvetica, sans-serif" fill="#1d3557">Line Tracker</text>
+  <text x="736" y="736" font-size="23" font-family="Avenir, Helvetica, sans-serif" fill="#457b9d">Current sequence: 1.e4 e5 2.Nf3 Nc6 3.Bc4 ...</text>
+  <text x="736" y="770" font-size="23" font-family="Avenir, Helvetica, sans-serif" fill="#457b9d">Mastery gain if completed: +6</text>
+  <text x="736" y="804" font-size="23" font-family="Avenir, Helvetica, sans-serif" fill="#457b9d">Next review after completion: in 2 days</text>
+</svg>

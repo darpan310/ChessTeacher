@@ -1,0 +1,72 @@
+<svg xmlns="http://www.w3.org/2000/svg" width="1440" height="900" viewBox="0 0 1440 900">
+  <defs>
+    <linearGradient id="bg" x1="0" y1="0" x2="1" y2="1">
+      <stop offset="0%" stop-color="#f8f7f2"/>
+      <stop offset="100%" stop-color="#e6efe4"/>
+    </linearGradient>
+  </defs>
+  <rect width="1440" height="900" fill="url(#bg)"/>
+
+  <rect x="34" y="24" width="1372" height="74" rx="16" fill="#102a43"/>
+  <text x="64" y="72" font-size="30" font-family="Avenir, Helvetica, sans-serif" fill="#f0f4f8">Choose Opening to Learn</text>
+  <text x="1010" y="72" font-size="22" font-family="Avenir, Helvetica, sans-serif" fill="#d9e2ec">White and Black Repertoires</text>
+
+  <rect x="34" y="120" width="1372" height="56" rx="14" fill="#ffffff"/>
+  <text x="60" y="155" font-size="24" font-family="Avenir, Helvetica, sans-serif" fill="#1d3557">Direct-start cards: pick an opening, then choose Mainline or a Variation.</text>
+
+  <!-- Row 1 -->
+  <rect x="34" y="196" width="436" height="300" rx="18" fill="#ffffff"/>
+  <text x="62" y="246" font-size="34" font-family="Avenir, Helvetica, sans-serif" fill="#1d3557">Italian Game (White)</text>
+  <rect x="62" y="268" width="380" height="52" rx="10" fill="#2a9d8f"/>
+  <text x="84" y="303" font-size="24" font-family="Avenir, Helvetica, sans-serif" fill="#ffffff">Mainline: 1.e4 e5 2.Nf3 Nc6 3.Bc4</text>
+  <text x="62" y="356" font-size="22" font-family="Avenir, Helvetica, sans-serif" fill="#457b9d">Variations:</text>
+  <text x="62" y="390" font-size="21" font-family="Avenir, Helvetica, sans-serif" fill="#457b9d">1. Two Knights Defense</text>
+  <text x="62" y="422" font-size="21" font-family="Avenir, Helvetica, sans-serif" fill="#457b9d">2. Giuoco Piano setup</text>
+  <text x="62" y="454" font-size="21" font-family="Avenir, Helvetica, sans-serif" fill="#457b9d">3. Early ...Nf6 deviation</text>
+
+  <rect x="502" y="196" width="436" height="300" rx="18" fill="#ffffff"/>
+  <text x="530" y="246" font-size="34" font-family="Avenir, Helvetica, sans-serif" fill="#1d3557">Sicilian (Black vs e4)</text>
+  <rect x="530" y="268" width="380" height="52" rx="10" fill="#2a9d8f"/>
+  <text x="552" y="303" font-size="24" font-family="Avenir, Helvetica, sans-serif" fill="#ffffff">Mainline: 1.e4 c5 2.Nf3 d6 3.d4</text>
+  <text x="530" y="356" font-size="22" font-family="Avenir, Helvetica, sans-serif" fill="#457b9d">Variations:</text>
+  <text x="530" y="390" font-size="21" font-family="Avenir, Helvetica, sans-serif" fill="#457b9d">1. Alapin (2.c3)</text>
+  <text x="530" y="422" font-size="21" font-family="Avenir, Helvetica, sans-serif" fill="#457b9d">2. Smith-Morra (2.d4)</text>
+  <text x="530" y="454" font-size="21" font-family="Avenir, Helvetica, sans-serif" fill="#457b9d">3. Closed Sicilian (2.Nc3)</text>
+
+  <rect x="970" y="196" width="436" height="300" rx="18" fill="#ffffff"/>
+  <text x="998" y="246" font-size="34" font-family="Avenir, Helvetica, sans-serif" fill="#1d3557">Caro-Kann (Black)</text>
+  <rect x="998" y="268" width="380" height="52" rx="10" fill="#2a9d8f"/>
+  <text x="1020" y="303" font-size="24" font-family="Avenir, Helvetica, sans-serif" fill="#ffffff">Mainline: 1.e4 c6 2.d4 d5 3.Nc3</text>
+  <text x="998" y="356" font-size="22" font-family="Avenir, Helvetica, sans-serif" fill="#457b9d">Variations:</text>
+  <text x="998" y="390" font-size="21" font-family="Avenir, Helvetica, sans-serif" fill="#457b9d">1. Advance Variation</text>
+  <text x="998" y="422" font-size="21" font-family="Avenir, Helvetica, sans-serif" fill="#457b9d">2. Exchange Variation</text>
+  <text x="998" y="454" font-size="21" font-family="Avenir, Helvetica, sans-serif" fill="#457b9d">3. Fantasy Variation</text>
+
+  <!-- Row 2 -->
+  <rect x="34" y="528" width="436" height="300" rx="18" fill="#ffffff"/>
+  <text x="62" y="578" font-size="34" font-family="Avenir, Helvetica, sans-serif" fill="#1d3557">London System (White)</text>
+  <rect x="62" y="600" width="380" height="52" rx="10" fill="#2a9d8f"/>
+  <text x="84" y="635" font-size="24" font-family="Avenir, Helvetica, sans-serif" fill="#ffffff">Mainline: 1.d4 2.Nf3 3.Bf4</text>
+  <text x="62" y="688" font-size="22" font-family="Avenir, Helvetica, sans-serif" fill="#457b9d">Variations:</text>
+  <text x="62" y="722" font-size="21" font-family="Avenir, Helvetica, sans-serif" fill="#457b9d">1. ...c5 early challenge</text>
+  <text x="62" y="754" font-size="21" font-family="Avenir, Helvetica, sans-serif" fill="#457b9d">2. ...Qb6 pressure line</text>
+  <text x="62" y="786" font-size="21" font-family="Avenir, Helvetica, sans-serif" fill="#457b9d">3. Kingside attack setup</text>
+
+  <rect x="502" y="528" width="436" height="300" rx="18" fill="#ffffff"/>
+  <text x="530" y="578" font-size="34" font-family="Avenir, Helvetica, sans-serif" fill="#1d3557">Queen's Gambit (White)</text>
+  <rect x="530" y="600" width="380" height="52" rx="10" fill="#2a9d8f"/>
+  <text x="552" y="635" font-size="24" font-family="Avenir, Helvetica, sans-serif" fill="#ffffff">Mainline: 1.d4 d5 2.c4</text>
+  <text x="530" y="688" font-size="22" font-family="Avenir, Helvetica, sans-serif" fill="#457b9d">Variations:</text>
+  <text x="530" y="722" font-size="21" font-family="Avenir, Helvetica, sans-serif" fill="#457b9d">1. Accepted (QGA)</text>
+  <text x="530" y="754" font-size="21" font-family="Avenir, Helvetica, sans-serif" fill="#457b9d">2. Slav Defense</text>
+  <text x="530" y="786" font-size="21" font-family="Avenir, Helvetica, sans-serif" fill="#457b9d">3. Albin Countergambit</text>
+
+  <rect x="970" y="528" width="436" height="300" rx="18" fill="#ffffff"/>
+  <text x="998" y="578" font-size="34" font-family="Avenir, Helvetica, sans-serif" fill="#1d3557">QGD / KID (Black vs d4)</text>
+  <rect x="998" y="600" width="380" height="52" rx="10" fill="#2a9d8f"/>
+  <text x="1020" y="635" font-size="24" font-family="Avenir, Helvetica, sans-serif" fill="#ffffff">Mainline: ...d5...e6 or ...Nf6...g6</text>
+  <text x="998" y="688" font-size="22" font-family="Avenir, Helvetica, sans-serif" fill="#457b9d">Variations:</text>
+  <text x="998" y="722" font-size="21" font-family="Avenir, Helvetica, sans-serif" fill="#457b9d">1. QGD Exchange</text>
+  <text x="998" y="754" font-size="21" font-family="Avenir, Helvetica, sans-serif" fill="#457b9d">2. QGD Orthodox</text>
+  <text x="998" y="786" font-size="21" font-family="Avenir, Helvetica, sans-serif" fill="#457b9d">3. KID Classical setup</text>
+</svg>

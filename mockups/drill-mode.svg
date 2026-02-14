@@ -1,0 +1,28 @@
+<svg xmlns="http://www.w3.org/2000/svg" width="1440" height="900" viewBox="0 0 1440 900">
+  <rect width="1440" height="900" fill="#f1f5f9"/>
+  <rect x="40" y="28" width="1360" height="72" rx="18" fill="#1e293b"/>
+  <text x="76" y="74" font-size="30" font-family="Avenir, Helvetica, sans-serif" fill="#e2e8f0">Drill Mode · Sicilian Defense</text>
+  <text x="1110" y="74" font-size="22" font-family="Avenir, Helvetica, sans-serif" fill="#94a3b8">Prompt 3 / 10</text>
+
+  <rect x="40" y="130" width="620" height="620" rx="16" fill="#ffffff"/>
+  <rect x="78" y="168" width="544" height="544" fill="#d9c5a0"/>
+  <text x="236" y="444" font-size="42" font-family="Avenir, Helvetica, sans-serif" fill="#334155">Board Position</text>
+
+  <rect x="700" y="130" width="700" height="260" rx="20" fill="#ffffff"/>
+  <text x="736" y="186" font-size="34" font-family="Avenir, Helvetica, sans-serif" fill="#0f172a">Your Move as Black</text>
+  <text x="736" y="230" font-size="24" font-family="Avenir, Helvetica, sans-serif" fill="#475569">Position: 1.e4 c5 2.Nf3 d6 3.d4 cxd4 4.Nxd4</text>
+  <rect x="736" y="260" width="300" height="56" rx="10" fill="#0ea5e9"/>
+  <text x="827" y="297" font-size="28" font-family="Avenir, Helvetica, sans-serif" fill="#fff">Play ...Nf6</text>
+  <rect x="1056" y="260" width="300" height="56" rx="10" fill="#e2e8f0"/>
+  <text x="1133" y="297" font-size="28" font-family="Avenir, Helvetica, sans-serif" fill="#1e293b">Show Hint</text>
+
+  <rect x="700" y="420" width="700" height="200" rx="20" fill="#082f49"/>
+  <text x="736" y="476" font-size="32" font-family="Avenir, Helvetica, sans-serif" fill="#e0f2fe">Feedback (after answer)</text>
+  <text x="736" y="520" font-size="24" font-family="Avenir, Helvetica, sans-serif" fill="#bae6fd">Correct. ...Nf6 hits e4 and develops naturally.</text>
+  <text x="736" y="558" font-size="24" font-family="Avenir, Helvetica, sans-serif" fill="#bae6fd">Next idea: ...a6 to prepare queenside expansion.</text>
+
+  <rect x="700" y="650" width="700" height="200" rx="20" fill="#ffffff"/>
+  <text x="736" y="706" font-size="32" font-family="Avenir, Helvetica, sans-serif" fill="#0f172a">Session Stats</text>
+  <text x="736" y="746" font-size="24" font-family="Avenir, Helvetica, sans-serif" fill="#334155">Accuracy: 82% · Avg response: 4.8s · Streak: 5</text>
+  <text x="736" y="784" font-size="24" font-family="Avenir, Helvetica, sans-serif" fill="#334155">Weak spot detected: Anti-Sicilian Alapin branch</text>
+</svg>

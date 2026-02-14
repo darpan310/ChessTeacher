@@ -1,0 +1,409 @@
+:root {
+  font-family: "Avenir Next", "Segoe UI", sans-serif;
+  color: #102a43;
+  background: linear-gradient(130deg, #f8f7f2, #e6efe4);
+}
+
+* {
+  box-sizing: border-box;
+}
+
+body {
+  margin: 0;
+  min-height: 100vh;
+}
+
+#root {
+  min-height: 100vh;
+}
+
+.dashboard-page {
+  min-height: 100vh;
+  padding: 18px;
+}
+
+.topbar {
+  background: #102a43;
+  color: #f0f4f8;
+  border-radius: 14px;
+  padding: 16px 18px;
+  box-shadow: 0 10px 24px rgba(3, 27, 46, 0.16);
+}
+
+.topbar h1 {
+  margin: 0;
+  font-size: 31px;
+}
+
+.topbar p {
+  margin: 5px 0 0;
+  color: #d9e2ec;
+}
+
+.dashboard-grid {
+  margin-top: 14px;
+  display: grid;
+  grid-template-columns: minmax(640px, 1.25fr) minmax(340px, 0.75fr);
+  gap: 16px;
+}
+
+.dashboard-grid.single-column {
+  grid-template-columns: 1fr;
+}
+
+.catalog-panel {
+  display: grid;
+  gap: 14px;
+}
+
+.section-block,
+.opening-header-card,
+.line-group-card,
+.practice-panel {
+  background: #ffffff;
+  border-radius: 14px;
+  padding: 14px;
+  box-shadow: 0 10px 22px rgba(7, 44, 72, 0.1);
+}
+
+.section-head h2,
+.opening-header-card h2,
+.line-group-card h3 {
+  margin: 0;
+}
+
+.section-head p,
+.opening-header-card p {
+  margin: 4px 0 0;
+  color: #627d98;
+}
+
+.cards-grid {
+  margin-top: 12px;
+  display: grid;
+  grid-template-columns: repeat(3, minmax(190px, 1fr));
+  gap: 10px;
+}
+
+.opening-card,
+.line-card {
+  border: 1px solid #d9e2ec;
+  background: #f7fbfd;
+  border-radius: 10px;
+  padding: 10px;
+  display: grid;
+  gap: 8px;
+}
+
+.opening-card.active,
+.line-card.active {
+  border-color: #2a9d8f;
+  background: #eaf8f6;
+}
+
+.opening-title-row {
+  display: flex;
+  justify-content: space-between;
+  align-items: center;
+  gap: 8px;
+}
+
+.opening-title-row h3 {
+  margin: 0;
+  font-size: 17px;
+  line-height: 1.15;
+}
+
+.selected-pill {
+  font-size: 11px;
+  font-weight: 600;
+  background: #2a9d8f;
+  color: white;
+  padding: 4px 7px;
+  border-radius: 999px;
+}
+
+.mainline-text {
+  margin: 0;
+  font-size: 13px;
+  color: #334e68;
+}
+
+.variations-title {
+  margin: 0;
+  font-size: 13px;
+  font-weight: 700;
+  color: #243b53;
+}
+
+.opening-card ul {
+  margin: 0;
+  padding-left: 18px;
+  font-size: 13px;
+  color: #486581;
+  display: grid;
+  gap: 2px;
+}
+
+.opening-card button,
+.line-card button,
+.practice-controls button,
+.back-button,
+.mode-toggle button {
+  border: none;
+  border-radius: 8px;
+  cursor: pointer;
+  font-weight: 600;
+}
+
+.opening-card button,
+.line-card button {
+  justify-self: start;
+  background: #2a9d8f;
+  color: #ffffff;
+  padding: 8px 12px;
+}
+
+.opening-detail-layout {
+  margin-top: 14px;
+  display: grid;
+  grid-template-columns: minmax(700px, 1.2fr) minmax(360px, 0.8fr);
+  gap: 16px;
+}
+
+.opening-detail-main {
+  display: grid;
+  gap: 12px;
+  align-content: start;
+}
+
+.back-button {
+  justify-self: start;
+  background: #355070;
+  color: #ffffff;
+  padding: 8px 12px;
+}
+
+.variation-grid {
+  margin-top: 8px;
+  display: grid;
+  grid-template-columns: repeat(2, minmax(220px, 1fr));
+  gap: 10px;
+}
+
+.line-card strong {
+  display: block;
+  font-size: 15px;
+}
+
+.line-card p {
+  margin: 5px 0;
+  color: #334e68;
+  font-size: 13px;
+}
+
+.line-card small {
+  color: #627d98;
+}
+
+.practice-panel {
+  position: sticky;
+  top: 18px;
+  align-self: start;
+  display: grid;
+  gap: 10px;
+}
+
+.practice-head h2 {
+  margin: 0;
+  font-size: 24px;
+}
+
+.practice-head p {
+  margin: 5px 0 0;
+  color: #486581;
+  font-size: 14px;
+}
+
+.mode-toggle {
+  display: grid;
+  grid-template-columns: 1fr 1fr;
+  gap: 8px;
+}
+
+.mode-toggle button {
+  padding: 9px 12px;
+  background: #d9e2ec;
+  color: #334e68;
+}
+
+.mode-toggle button.active {
+  background: #1f7a8c;
+  color: #ffffff;
+}
+
+.practice-controls {
+  display: flex;
+  gap: 8px;
+  flex-wrap: wrap;
+}
+
+.practice-controls button {
+  padding: 9px 12px;
+  color: #ffffff;
+}
+
+.practice-controls button:first-child {
+  background: #1f7a8c;
+}
+
+.practice-controls button:last-child {
+  background: #355070;
+}
+
+.board-row {
+  width: 100%;
+  display: grid;
+  grid-template-columns: 26px 1fr;
+  gap: 10px;
+  align-items: stretch;
+}
+
+.board-wrap {
+  width: 100%;
+}
+
+.eval-bar {
+  position: relative;
+  overflow: hidden;
+  border: 1px solid #d9e2ec;
+  border-radius: 8px;
+  background: #111827;
+  min-height: 320px;
+  display: flex;
+  flex-direction: column;
+}
+
+.eval-black {
+  background: #111827;
+  transition: height 180ms ease-out;
+}
+
+.eval-white {
+  background: #f8fafc;
+  transition: height 180ms ease-out;
+}
+
+.eval-label {
+  position: absolute;
+  left: 50%;
+  top: 50%;
+  transform: translate(-50%, -50%);
+  font-size: 10px;
+  font-weight: 700;
+  color: #1f2937;
+  background: rgba(248, 250, 252, 0.92);
+  border-radius: 6px;
+  padding: 2px 5px;
+}
+
+.status-bar {
+  margin: 0;
+  background: #0b3c49;
+  color: #eaf4f5;
+  border-radius: 10px;
+  padding: 10px;
+  font-size: 13px;
+}
+
+.coach-card {
+  border: 1px solid #d9e2ec;
+  background: #f7fbfd;
+  border-radius: 10px;
+  padding: 10px;
+}
+
+.coach-card h3 {
+  margin: 0 0 6px;
+  font-size: 15px;
+}
+
+.coach-card p {
+  margin: 0;
+  color: #334e68;
+  font-size: 13px;
+}
+
+.attempt-list {
+  margin: 0;
+  padding-left: 18px;
+  display: grid;
+  gap: 4px;
+  font-size: 13px;
+}
+
+.attempt-list li {
+  color: #486581;
+}
+
+.attempt-list li.in-line {
+  color: #1f7a1f;
+}
+
+.attempt-list li.off-line {
+  color: #a63a3a;
+}
+
+.undo-btn {
+  margin-top: 8px;
+  border: none;
+  border-radius: 8px;
+  padding: 8px 12px;
+  background: #a63a3a;
+  color: #fff;
+  font-weight: 600;
+  cursor: pointer;
+}
+
+.analyze-btn {
+  margin-top: 8px;
+  border: none;
+  border-radius: 8px;
+  padding: 8px 12px;
+  background: #355070;
+  color: #fff;
+  font-weight: 600;
+  cursor: pointer;
+}
+
+.analyze-btn:disabled {
+  opacity: 0.5;
+  cursor: not-allowed;
+}
+
+@media (max-width: 1280px) {
+  .cards-grid {
+    grid-template-columns: repeat(2, minmax(190px, 1fr));
+  }
+
+  .opening-detail-layout {
+    grid-template-columns: 1fr;
+  }
+
+  .practice-panel {
+    position: static;
+  }
+}
+
+@media (max-width: 980px) {
+  .cards-grid,
+  .variation-grid,
+  .mode-toggle {
+    grid-template-columns: 1fr;
+  }
+
+  .board-row {
+    grid-template-columns: 20px 1fr;
+    gap: 8px;
+  }
+}

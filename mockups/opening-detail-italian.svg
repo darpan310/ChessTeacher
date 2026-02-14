@@ -1,0 +1,59 @@
+<svg xmlns="http://www.w3.org/2000/svg" width="1440" height="900" viewBox="0 0 1440 900">
+  <defs>
+    <linearGradient id="bg" x1="0" y1="0" x2="1" y2="1">
+      <stop offset="0%" stop-color="#f8f7f2"/>
+      <stop offset="100%" stop-color="#e4efe7"/>
+    </linearGradient>
+  </defs>
+  <rect width="1440" height="900" fill="url(#bg)"/>
+
+  <rect x="34" y="24" width="1372" height="74" rx="16" fill="#102a43"/>
+  <text x="62" y="72" font-size="30" font-family="Avenir, Helvetica, sans-serif" fill="#f0f4f8">Italian Game (White) · Opening Detail</text>
+  <text x="1110" y="72" font-size="22" font-family="Avenir, Helvetica, sans-serif" fill="#d9e2ec">Ready: 78%</text>
+
+  <rect x="34" y="116" width="870" height="180" rx="18" fill="#ffffff"/>
+  <text x="62" y="165" font-size="32" font-family="Avenir, Helvetica, sans-serif" fill="#1d3557">Core Plan</text>
+  <text x="62" y="206" font-size="23" font-family="Avenir, Helvetica, sans-serif" fill="#457b9d">Develop quickly (Nf3, Bc4), castle early, then play c3 + d4 to challenge the center.</text>
+  <text x="62" y="242" font-size="23" font-family="Avenir, Helvetica, sans-serif" fill="#457b9d">Tactical theme: pressure on f7 and piece activity over pawn grabbing.</text>
+
+  <rect x="926" y="116" width="480" height="180" rx="18" fill="#0b3c49"/>
+  <text x="956" y="165" font-size="30" font-family="Avenir, Helvetica, sans-serif" fill="#e8f1f2">Start Training</text>
+  <rect x="956" y="188" width="195" height="58" rx="12" fill="#2a9d8f"/>
+  <text x="1001" y="225" font-size="28" font-family="Avenir, Helvetica, sans-serif" fill="#fff">Learn</text>
+  <rect x="1170" y="188" width="206" height="58" rx="12" fill="#e9c46a"/>
+  <text x="1225" y="225" font-size="28" font-family="Avenir, Helvetica, sans-serif" fill="#1b1b1b">Drill</text>
+  <text x="956" y="274" font-size="21" font-family="Avenir, Helvetica, sans-serif" fill="#b6d7de">Recommended: Learn first, then Drill</text>
+
+  <rect x="34" y="318" width="1372" height="250" rx="18" fill="#ffffff"/>
+  <text x="62" y="365" font-size="34" font-family="Avenir, Helvetica, sans-serif" fill="#1d3557">Mainline</text>
+  <rect x="62" y="384" width="1316" height="160" rx="14" fill="#eef6f8"/>
+  <text x="86" y="430" font-size="29" font-family="Avenir, Helvetica, sans-serif" fill="#1d3557">Mainline A: 1.e4 e5 2.Nf3 Nc6 3.Bc4 Bc5 4.c3 Nf6 5.d4</text>
+  <text x="86" y="470" font-size="22" font-family="Avenir, Helvetica, sans-serif" fill="#457b9d">Focus: fast development and central break. 10-ply lesson, 18 drill prompts.</text>
+  <rect x="86" y="490" width="190" height="42" rx="10" fill="#2a9d8f"/>
+  <text x="122" y="518" font-size="22" font-family="Avenir, Helvetica, sans-serif" fill="#fff">Open Line</text>
+  <text x="300" y="518" font-size="22" font-family="Avenir, Helvetica, sans-serif" fill="#1d3557">Accuracy 81% · Last practiced: yesterday</text>
+
+  <rect x="34" y="590" width="1372" height="276" rx="18" fill="#ffffff"/>
+  <text x="62" y="638" font-size="34" font-family="Avenir, Helvetica, sans-serif" fill="#1d3557">Variations</text>
+
+  <rect x="62" y="656" width="420" height="186" rx="14" fill="#f5fbfc"/>
+  <text x="84" y="700" font-size="27" font-family="Avenir, Helvetica, sans-serif" fill="#1d3557">Two Knights Defense</text>
+  <text x="84" y="734" font-size="21" font-family="Avenir, Helvetica, sans-serif" fill="#457b9d">...Nf6 early pressure line</text>
+  <text x="84" y="766" font-size="21" font-family="Avenir, Helvetica, sans-serif" fill="#457b9d">8-ply · 12 prompts</text>
+  <rect x="84" y="784" width="148" height="40" rx="9" fill="#2a9d8f"/>
+  <text x="111" y="811" font-size="21" font-family="Avenir, Helvetica, sans-serif" fill="#fff">Select</text>
+
+  <rect x="510" y="656" width="420" height="186" rx="14" fill="#f5fbfc"/>
+  <text x="532" y="700" font-size="27" font-family="Avenir, Helvetica, sans-serif" fill="#1d3557">Giuoco Piano</text>
+  <text x="532" y="734" font-size="21" font-family="Avenir, Helvetica, sans-serif" fill="#457b9d">Slow buildup with d3/c3 plans</text>
+  <text x="532" y="766" font-size="21" font-family="Avenir, Helvetica, sans-serif" fill="#457b9d">10-ply · 15 prompts</text>
+  <rect x="532" y="784" width="148" height="40" rx="9" fill="#2a9d8f"/>
+  <text x="559" y="811" font-size="21" font-family="Avenir, Helvetica, sans-serif" fill="#fff">Select</text>
+
+  <rect x="958" y="656" width="420" height="186" rx="14" fill="#f5fbfc"/>
+  <text x="980" y="700" font-size="27" font-family="Avenir, Helvetica, sans-serif" fill="#1d3557">Early ...Nf6 Deviation</text>
+  <text x="980" y="734" font-size="21" font-family="Avenir, Helvetica, sans-serif" fill="#457b9d">Practical response for quick games</text>
+  <text x="980" y="766" font-size="21" font-family="Avenir, Helvetica, sans-serif" fill="#457b9d">6-ply · 9 prompts</text>
+  <rect x="980" y="784" width="148" height="40" rx="9" fill="#2a9d8f"/>
+  <text x="1007" y="811" font-size="21" font-family="Avenir, Helvetica, sans-serif" fill="#fff">Select</text>
+</svg>
