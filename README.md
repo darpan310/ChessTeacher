@@ -52,21 +52,32 @@ Create a `.env` file in project root:
 VITE_ENGINE_MODE=browser
 VITE_STOCKFISH_WORKER_URL=
 VITE_ENGINE_ENDPOINT=
+VITE_ENGINE_DEPTH=14
+VITE_ENGINE_MOVETIME_MS=700
+VITE_ENGINE_THREADS=
+VITE_ENGINE_HASH_MB=64
 ```
 
 Notes:
 - Default mode is `browser`.
 - `VITE_STOCKFISH_WORKER_URL` is optional; built-in CDN fallbacks are used if unset.
 - `VITE_ENGINE_MODE=server` is reserved for future backend engine integration.
+- Increase `VITE_ENGINE_DEPTH` / `VITE_ENGINE_MOVETIME_MS` for stronger analysis.
+- `VITE_ENGINE_THREADS` and `VITE_ENGINE_HASH_MB` tune engine strength vs CPU/memory usage.
 
 ## Current Functionality
 
 - Opening dashboard with common openings and variations
-- Dedicated opening detail/practice screen
+- Opening detail page for line selection
+- Dedicated gameplay page focused on board + training tools
 - Guided line learning with correctness checks
-- “What you tried” move feedback
-- Move log + move idea explanations
+- Deviation mode: user can intentionally leave line and continue both sides with Stockfish guidance
+- Move log shown in numbered White/Black pairs
+- Move idea explanations
+- Last-move board highlights
+- Slight delay on computer reply move for better visual learning
 - Live Stockfish analysis and evaluation bar beside the board
+- Lazy-loaded opening library for scale (per-opening chunks)
 
 ## Troubleshooting
 
@@ -79,6 +90,19 @@ Notes:
 src/
   App.jsx
   styles.css
+  components/
+    Dashboard.jsx
+    OpeningDetail.jsx
+    PracticeSession.jsx
+  hooks/
+    useEngineAnalysis.js
+  lib/
+    openingTraining.js
+  data/
+    openingCatalog.js
+    openingLibrary.js
+    openings.js
+    openings-db/
   engine/
     browserStockfishEngine.js
     serverChessEngine.js
