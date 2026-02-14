@@ -29,6 +29,8 @@ function parseInfoLine(line) {
 export class BrowserStockfishEngine {
   constructor(options = {}) {
     this.workerUrl = options.workerUrl ?? DEFAULT_WORKER_URL;
+    this.threads = options.threads;
+    this.hashMb = options.hashMb ?? 64;
     this.activeWorkerUrl = null;
     this.worker = null;
     this.ready = false;
@@ -60,6 +62,7 @@ export class BrowserStockfishEngine {
 
         this.activeWorkerUrl = candidateUrl;
         await this.sendAndWait("uci", (line) => line === "uciok", 5000);
+        this.configureEngineOptions();
         await this.sendAndWait("isready", (line) => line === "readyok", 5000);
         this.ready = true;
         console.debug("[engine/browser] init worker success", { workerUrl: candidateUrl });
@@ -113,6 +116,21 @@ export class BrowserStockfishEngine {
     } finally {
       URL.revokeObjectURL(blobUrl);
     }
+  }
+
+  configureEngineOptions() {
+    const hardwareThreads =
+      typeof navigator !== "undefined" && Number.isFinite(navigator.hardwareConcurrency)
+        ? navigator.hardwareConcurrency
+        : 2;
+    const defaultThreads = Math.max(1, Math.min(4, hardwareThreads - 1));
+    const threads = Number.isFinite(this.threads) ? this.threads : defaultThreads;
+    const hashMb = Number.isFinite(this.hashMb) ? this.hashMb : 64;
+
+    this.send(`setoption name UCI_AnalyseMode value true`);
+    this.send(`setoption name Threads value ${threads}`);
+    this.send(`setoption name Hash value ${hashMb}`);
+    console.debug("[engine/browser] configured options", { threads, hashMb });
   }
 
   async analyzePosition({ fen, depth = 12, moveTimeMs = 250 } = {}) {

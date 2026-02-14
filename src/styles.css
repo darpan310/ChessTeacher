@@ -171,10 +171,35 @@ body {
   gap: 16px;
 }
 
+.single-column-layout {
+  grid-template-columns: 1fr;
+}
+
 .opening-detail-main {
   display: grid;
   gap: 12px;
   align-content: start;
+}
+
+.opening-actions {
+  display: grid;
+  gap: 8px;
+}
+
+.opening-actions p {
+  margin: 0;
+  color: #334e68;
+}
+
+.start-learn-btn {
+  justify-self: start;
+  border: none;
+  border-radius: 8px;
+  cursor: pointer;
+  font-weight: 700;
+  background: #1f7a8c;
+  color: #fff;
+  padding: 10px 14px;
 }
 
 .back-button {
@@ -210,6 +235,52 @@ body {
   position: sticky;
   top: 18px;
   align-self: start;
+  display: grid;
+  gap: 10px;
+}
+
+.practice-page-layout {
+  margin-top: 14px;
+  display: grid;
+  gap: 12px;
+}
+
+.practice-page-head {
+  display: flex;
+  justify-content: space-between;
+  gap: 12px;
+  align-items: center;
+  background: #ffffff;
+  border-radius: 14px;
+  padding: 14px;
+  box-shadow: 0 10px 22px rgba(7, 44, 72, 0.1);
+}
+
+.practice-page-head h2 {
+  margin: 0;
+}
+
+.practice-page-head p {
+  margin: 4px 0 0;
+  color: #486581;
+}
+
+.practice-page-actions {
+  display: flex;
+  gap: 8px;
+}
+
+.practice-page-grid {
+  display: grid;
+  grid-template-columns: minmax(700px, 1.2fr) minmax(360px, 0.8fr);
+  gap: 16px;
+}
+
+.practice-board-card {
+  background: #ffffff;
+  border-radius: 14px;
+  padding: 14px;
+  box-shadow: 0 10px 22px rgba(7, 44, 72, 0.1);
   display: grid;
   gap: 10px;
 }
@@ -275,7 +346,7 @@ body {
 
 .eval-bar {
   position: relative;
-  overflow: hidden;
+  overflow: visible;
   border: 1px solid #d9e2ec;
   border-radius: 8px;
   background: #111827;
@@ -296,15 +367,19 @@ body {
 
 .eval-label {
   position: absolute;
-  left: 50%;
+  left: calc(100% + 8px);
   top: 50%;
-  transform: translate(-50%, -50%);
-  font-size: 10px;
+  transform: translateY(-50%);
+  font-size: 11px;
   font-weight: 700;
   color: #1f2937;
   background: rgba(248, 250, 252, 0.92);
   border-radius: 6px;
-  padding: 2px 5px;
+  border: 1px solid #cbd5e1;
+  padding: 2px 6px;
+  white-space: nowrap;
+  line-height: 1;
+  z-index: 3;
 }
 
 .status-bar {
@@ -314,6 +389,17 @@ body {
   border-radius: 10px;
   padding: 10px;
   font-size: 13px;
+}
+
+.deviation-indicator {
+  margin: 0;
+  background: #fff4db;
+  color: #7c4a03;
+  border: 1px solid #f2d29b;
+  border-radius: 10px;
+  padding: 9px 10px;
+  font-size: 13px;
+  font-weight: 600;
 }
 
 .coach-card {
@@ -354,6 +440,30 @@ body {
   color: #a63a3a;
 }
 
+.move-pairs {
+  display: grid;
+  gap: 6px;
+  font-size: 13px;
+}
+
+.move-pair-row {
+  display: grid;
+  grid-template-columns: 28px 1fr 1fr;
+  gap: 6px;
+  align-items: center;
+  color: #334e68;
+}
+
+.move-num {
+  color: #627d98;
+  font-weight: 700;
+}
+
+.move-white,
+.move-black {
+  font-family: "Menlo", "Consolas", monospace;
+}
+
 .undo-btn {
   margin-top: 8px;
   border: none;
@@ -387,6 +497,10 @@ body {
   }
 
   .opening-detail-layout {
+    grid-template-columns: 1fr;
+  }
+
+  .practice-page-grid {
     grid-template-columns: 1fr;
   }
 

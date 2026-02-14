@@ -247,6 +247,7 @@ export function initSessionFromLine(line) {
   const plan = buildLinePlan(getExpandedLinePgn(line));
   return {
     active: false,
+    deviated: false,
     stepIndex: 0,
     plan,
   };
@@ -258,6 +259,7 @@ export function getUserSideForOpening(opening) {
 
 export function advanceComputerMoves(fen, history, session, userSide) {
   const chess = gameFromFen(fen);
+  const nextHistory = [...history];
   let nextStepIndex = session.stepIndex;
   const autoMoves = [];
 
@@ -276,13 +278,14 @@ export function advanceComputerMoves(fen, history, session, userSide) {
     }
     if (!autoMove) break;
     autoMoves.push(autoMove.san);
+    nextHistory.push(autoMove.san);
     nextStepIndex += 1;
   }
 
   const completed = nextStepIndex >= session.plan.length;
   return {
     fen: chess.fen(),
-    history: chess.history(),
+    history: nextHistory,
     stepIndex: nextStepIndex,
     completed,
     autoMoves,

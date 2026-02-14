@@ -7,6 +7,9 @@ import {
   uciToSan,
 } from "../lib/openingTraining";
 
+const ENGINE_DEPTH = Number.parseInt(import.meta.env.VITE_ENGINE_DEPTH ?? "14", 10);
+const ENGINE_MOVETIME_MS = Number.parseInt(import.meta.env.VITE_ENGINE_MOVETIME_MS ?? "700", 10);
+
 export function useEngineAnalysis(boardFen) {
   const engineRef = useRef(null);
   const analysisRequestIdRef = useRef(0);
@@ -82,8 +85,8 @@ export function useEngineAnalysis(boardFen) {
         console.debug("[engine] analyze start");
         const analysis = await engine.analyzePosition({
           fen: boardFen,
-          depth: 12,
-          moveTimeMs: 300,
+          depth: Number.isFinite(ENGINE_DEPTH) ? ENGINE_DEPTH : 14,
+          moveTimeMs: Number.isFinite(ENGINE_MOVETIME_MS) ? ENGINE_MOVETIME_MS : 700,
         });
         if (requestId !== analysisRequestIdRef.current) return;
 

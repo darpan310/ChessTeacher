@@ -1,4 +1,4 @@
-import { OPENING_SECTIONS } from "../data/openings";
+import { OPENING_SECTIONS } from "../data/openingCatalog";
 
 export function Dashboard({ selectedOpeningId, onOpenOpening }) {
   return (

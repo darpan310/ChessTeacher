@@ -1,8 +1,10 @@
-import { useMemo, useState } from "react";
+import { useEffect, useMemo, useRef, useState } from "react";
 import { Chess } from "chess.js";
 import { Dashboard } from "./components/Dashboard";
 import { OpeningDetail } from "./components/OpeningDetail";
-import { ALL_OPENINGS } from "./data/openings";
+import { PracticeSession } from "./components/PracticeSession";
+import { ALL_OPENINGS } from "./data/openingCatalog";
+import { loadOpeningById } from "./data/openingLibrary";
 import { useEngineAnalysis } from "./hooks/useEngineAnalysis";
 import {
   advanceComputerMoves,
@@ -16,6 +18,7 @@ import {
 } from "./lib/openingTraining";
 
 export default function App() {
+  const AUTO_REPLY_DELAY_MS = 600;
   const [view, setView] = useState("dashboard");
   const [selectedOpeningId, setSelectedOpeningId] = useState(ALL_OPENINGS[0].id);
   const [selectedLineId, setSelectedLineId] = useState(ALL_OPENINGS[0].mainline.id);
@@ -28,12 +31,30 @@ export default function App() {
   const [moveLog, setMoveLog] = useState(initialBoard.history);
   const [attempts, setAttempts] = useState([]);
   const [session, setSession] = useState(initialSession);
-  const [pendingCorrection, setPendingCorrection] = useState(null);
+  const [isComputerThinking, setIsComputerThinking] = useState(false);
+  const [openingsById, setOpeningsById] = useState({});
+  const autoReplyTimeoutRef = useRef(null);
 
-  const selectedOpening = useMemo(
+  const clearPendingAutoReply = () => {
+    if (autoReplyTimeoutRef.current) {
+      clearTimeout(autoReplyTimeoutRef.current);
+      autoReplyTimeoutRef.current = null;
+    }
+    setIsComputerThinking(false);
+  };
+
+  useEffect(() => {
+    return () => {
+      if (autoReplyTimeoutRef.current) clearTimeout(autoReplyTimeoutRef.current);
+    };
+  }, []);
+
+  const selectedOpeningSummary = useMemo(
     () => ALL_OPENINGS.find((opening) => opening.id === selectedOpeningId) ?? ALL_OPENINGS[0],
     [selectedOpeningId]
   );
+  const selectedOpening = openingsById[selectedOpeningId] ?? selectedOpeningSummary;
+  const isSelectedOpeningLoaded = Boolean(openingsById[selectedOpeningId]);
 
   const selectedLine = useMemo(() => {
     const lines = openingLines(selectedOpening);
@@ -43,16 +64,14 @@ export default function App() {
   const userSide = useMemo(() => getUserSideForOpening(selectedOpening), [selectedOpening]);
   const linePlyCount = session.plan.length;
   const suggestedMove = useMemo(() => {
-    if (pendingCorrection) {
-      return { san: pendingCorrection.expectedSan, ply: pendingCorrection.expectedPly };
-    }
     if (!session.active) return null;
+    if (session.deviated) return null;
     const expected = session.plan[session.stepIndex] ?? null;
     if (!expected) return null;
     if (expected.fenBefore !== boardFen) return null;
     const turn = gameFromFen(boardFen).turn();
     return turn === userSide ? expected : null;
-  }, [session, boardFen, userSide, pendingCorrection]);
+  }, [session, boardFen, userSide]);
 
   const suggestedMoveIdea = useMemo(() => {
     if (!suggestedMove) return "";
@@ -82,23 +101,39 @@ export default function App() {
 
   const { engineStatus, engineAnalysis, whiteEvalLabel, whiteEvalRatio } = useEngineAnalysis(boardFen);
 
-  const openOpeningDetail = (openingId) => {
-    const opening = ALL_OPENINGS.find((item) => item.id === openingId);
-    if (!opening) return;
+  const openOpeningDetail = async (openingId) => {
+    clearPendingAutoReply();
+    const openingSummary = ALL_OPENINGS.find((item) => item.id === openingId);
+    if (!openingSummary) return;
 
     const board = initBoardStateFromLine();
-    setSelectedOpeningId(opening.id);
-    setSelectedLineId(opening.mainline.id);
+    setSelectedOpeningId(openingSummary.id);
+    setSelectedLineId(openingSummary.mainline.id);
     setBoardFen(board.fen);
     setMoveLog(board.history);
     setAttempts([]);
-    setSession(initSessionFromLine(opening.mainline));
-    setPendingCorrection(null);
-    setStatus(`Opened ${opening.name}. Mainline selected.`);
+    setSession(initSessionFromLine(openingSummary.mainline));
+    setStatus(`Loading ${openingSummary.name}...`);
     setView("opening");
+
+    try {
+      const openingFull = await loadOpeningById(openingId);
+      setOpeningsById((prev) => ({ ...prev, [openingId]: openingFull }));
+      setSelectedLineId(openingFull.mainline.id);
+      setSession(initSessionFromLine(openingFull.mainline));
+      setStatus(`Opened ${openingFull.name}. Mainline selected.`);
+    } catch (error) {
+      const message = error instanceof Error ? error.message : "Unknown opening load error";
+      setStatus(`Failed to load opening: ${message}`);
+    }
   };
 
   const onSelectLine = (lineId) => {
+    clearPendingAutoReply();
+    if (!isSelectedOpeningLoaded) {
+      setStatus(`Opening data is still loading. Try selecting ${selectedOpeningSummary.name} again in a moment.`);
+      return;
+    }
     const line = openingLines(selectedOpening).find((item) => item.id === lineId);
     if (!line) return;
 
@@ -112,11 +147,15 @@ export default function App() {
     setMoveLog(board.history);
     setAttempts([]);
     setSession(initSessionFromLine(line));
-    setPendingCorrection(null);
     setStatus(`Selected ${line.name}. Moves: ${sanMoves.join(" ")}.`);
   };
 
   const resetToSelectedLine = () => {
+    clearPendingAutoReply();
+    if (!isSelectedOpeningLoaded) {
+      setStatus("Opening data is still loading. Please wait.");
+      return;
+    }
     console.log("[debug] reset selected line", {
       line: selectedLine.name,
       sessionActive: session.active,
@@ -141,7 +180,6 @@ export default function App() {
         stepIndex: advanced.stepIndex,
       });
       setAttempts([]);
-      setPendingCorrection(null);
       setStatus(`Reset ${selectedLine.name}. Learning restarted.`);
       return;
     }
@@ -150,11 +188,15 @@ export default function App() {
     setBoardFen(baseBoard.fen);
     setSession(baseSession);
     setAttempts([]);
-    setPendingCorrection(null);
     setStatus(`Reset to ${selectedLine.name}. Click Start to begin again.`);
   };
 
   const startLearn = () => {
+    clearPendingAutoReply();
+    if (!isSelectedOpeningLoaded) {
+      setStatus(`Opening data is still loading for ${selectedOpeningSummary.name}.`);
+      return;
+    }
     const board = initBoardStateFromLine();
     const nextSession = initSessionFromLine(selectedLine);
     const advanced = advanceComputerMoves(
@@ -167,7 +209,6 @@ export default function App() {
     setBoardFen(advanced.fen);
     setMoveLog(advanced.history);
     setAttempts([]);
-    setPendingCorrection(null);
     setSession({
       ...nextSession,
       active: !advanced.completed,
@@ -214,9 +255,8 @@ export default function App() {
         setStatus("Drop payload was incomplete. Try again.");
         return false;
       }
-
-      if (pendingCorrection) {
-        setStatus("Undo incorrect move first, then play the expected move.");
+      if (isComputerThinking) {
+        setStatus("Computer is thinking... wait for the reply move.");
         return false;
       }
 
@@ -227,7 +267,7 @@ export default function App() {
       const targetRank = targetSquare?.[1];
       const isPromotion = isPawn && (targetRank === "1" || targetRank === "8");
 
-      if (session.active && chess.turn() !== userSide) {
+      if (session.active && !session.deviated && chess.turn() !== userSide) {
         setStatus("Wait for computer move. This position expects the other side to move.");
         return false;
       }
@@ -254,8 +294,16 @@ export default function App() {
       if (!session.active) {
         setAttempts((prev) => [{ label: `${move.san} (free play)`, inLine: true }, ...prev].slice(0, 8));
         setBoardFen(chess.fen());
-        setMoveLog(chess.history());
+        setMoveLog((prev) => [...prev, move.san]);
         setStatus(`Free play: played ${move.san}. Start Learn for guided validation.`);
+        return true;
+      }
+
+      if (session.deviated) {
+        setBoardFen(chess.fen());
+        setMoveLog((prev) => [...prev, move.san]);
+        setAttempts((prev) => [{ label: `${move.san} (deviation mode)`, inLine: false }, ...prev].slice(0, 8));
+        setStatus("Deviation mode: play both sides. Follow Stockfish best move.");
         return true;
       }
 
@@ -270,18 +318,14 @@ export default function App() {
       const inLine = expected.san === move.san;
       if (!inLine) {
         setBoardFen(chess.fen());
-        setMoveLog(chess.history());
-        setPendingCorrection({
-          expectedSan: expected.san,
-          expectedPly: expected.ply,
-          playedSan: move.san,
-          rollbackFen: boardFen,
-          rollbackHistory: moveLog,
-        });
+        setMoveLog((prev) => [...prev, move.san]);
+        setSession((prev) => ({ ...prev, deviated: true, active: true }));
         setAttempts((prev) =>
           [{ label: `${move.san} (expected ${expected.san})`, inLine: false }, ...prev].slice(0, 8)
         );
-        setStatus(`Learn: incorrect (${move.san}). Use Undo and try ${expected.san}.`);
+        setStatus(
+          `Learn: deviated with ${move.san} (expected ${expected.san}). You now control both sides.`
+        );
         return true;
       }
 
@@ -291,23 +335,51 @@ export default function App() {
         stepIndex: nextStepIndex,
         active: true,
       };
-      const advanced = advanceComputerMoves(chess.fen(), chess.history(), postUserSession, userSide);
+      const historyAfterUser = [...moveLog, move.san];
+      const advanced = advanceComputerMoves(chess.fen(), historyAfterUser, postUserSession, userSide);
       const completed = advanced.completed;
       setAttempts((prev) => [{ label: `${move.san} (on line)`, inLine: true }, ...prev].slice(0, 8));
-      setPendingCorrection(null);
+      if (advanced.autoMoves.length > 0) {
+        setBoardFen(chess.fen());
+        setMoveLog(historyAfterUser);
+        setSession((prev) => ({
+          ...prev,
+          stepIndex: nextStepIndex,
+          deviated: false,
+          active: true,
+        }));
+        setIsComputerThinking(true);
+        setStatus(`Learn: correct ${move.san}. Computer is thinking...`);
+        if (autoReplyTimeoutRef.current) clearTimeout(autoReplyTimeoutRef.current);
+        autoReplyTimeoutRef.current = setTimeout(() => {
+          autoReplyTimeoutRef.current = null;
+          setBoardFen(advanced.fen);
+          setMoveLog(advanced.history);
+          setSession((prev) => ({
+            ...prev,
+            stepIndex: advanced.stepIndex,
+            deviated: false,
+            active: !completed,
+          }));
+          setIsComputerThinking(false);
+          if (completed) {
+            setStatus(`Learn: correct ${move.san}. Computer played ${advanced.autoMoves.join(" ")}. Line complete.`);
+            return;
+          }
+          setStatus(`Learn: correct ${move.san}. Computer played ${advanced.autoMoves.join(" ")}. Your move.`);
+        }, AUTO_REPLY_DELAY_MS);
+        return true;
+      }
       setBoardFen(advanced.fen);
       setMoveLog(advanced.history);
       setSession((prev) => ({
         ...prev,
         stepIndex: advanced.stepIndex,
+        deviated: false,
         active: !completed,
       }));
       if (completed) {
         setStatus(`Learn: correct ${move.san}. Line complete.`);
-        return true;
-      }
-      if (advanced.autoMoves.length > 0) {
-        setStatus(`Learn: correct ${move.san}. Computer played ${advanced.autoMoves.join(" ")}. Your move.`);
         return true;
       }
       setStatus(`Learn: correct ${move.san}. Your move.`);
@@ -317,14 +389,6 @@ export default function App() {
       setStatus("Move handler crashed. Please retry this move.");
       return false;
     }
-  };
-
-  const undoIncorrectMove = () => {
-    if (!pendingCorrection) return;
-    setBoardFen(pendingCorrection.rollbackFen);
-    setMoveLog(pendingCorrection.rollbackHistory);
-    setPendingCorrection(null);
-    setStatus(`Try again: expected ${pendingCorrection.expectedSan}.`);
   };
 
   return (
@@ -339,32 +403,46 @@ export default function App() {
       {view === "dashboard" ? (
         <Dashboard selectedOpeningId={selectedOpeningId} onOpenOpening={openOpeningDetail} />
       ) : (
-        <OpeningDetail
-          opening={selectedOpening}
-          selectedLineId={selectedLineId}
-          onSelectLine={onSelectLine}
-          onBack={() => setView("dashboard")}
-          status={status}
-          onResetToLine={resetToSelectedLine}
-          onFlipBoard={() => setOrientation((value) => (value === "white" ? "black" : "white"))}
-          onDrop={onDrop}
-          boardFen={boardFen}
-          orientation={orientation}
-          sessionActive={session.active}
-          suggestedMove={suggestedMove}
-          attempts={attempts}
-          moveLog={moveLog}
-          pendingCorrection={pendingCorrection}
-          onUndoIncorrectMove={undoIncorrectMove}
-          suggestedMoveIdea={suggestedMoveIdea}
-          recentMoveIdeas={recentMoveIdeas}
-          linePlyCount={linePlyCount}
-          onStartLearn={startLearn}
-          engineStatus={engineStatus}
-          engineAnalysis={engineAnalysis}
-          whiteEvalLabel={whiteEvalLabel}
-          whiteEvalRatio={whiteEvalRatio}
-        />
+        <>
+          {view === "opening" ? (
+            <OpeningDetail
+              opening={selectedOpening}
+              selectedLineId={selectedLineId}
+              onSelectLine={onSelectLine}
+              onBack={() => setView("dashboard")}
+              onStartLearn={() => {
+                startLearn();
+                setView("play");
+              }}
+              linePlyCount={linePlyCount}
+              sessionActive={session.active}
+            />
+          ) : (
+            <PracticeSession
+              opening={selectedOpening}
+              selectedLineId={selectedLineId}
+              boardFen={boardFen}
+              orientation={orientation}
+              onDrop={onDrop}
+              onFlipBoard={() => setOrientation((value) => (value === "white" ? "black" : "white"))}
+              onResetToLine={resetToSelectedLine}
+              onBackToOpening={() => setView("opening")}
+              onBackToDashboard={() => setView("dashboard")}
+              status={status}
+              sessionActive={session.active}
+              isDeviationMode={session.deviated}
+              suggestedMove={suggestedMove}
+              suggestedMoveIdea={suggestedMoveIdea}
+              moveLog={moveLog}
+              recentMoveIdeas={recentMoveIdeas}
+              linePlyCount={linePlyCount}
+              engineStatus={engineStatus}
+              engineAnalysis={engineAnalysis}
+              whiteEvalLabel={whiteEvalLabel}
+              whiteEvalRatio={whiteEvalRatio}
+            />
+          )}
+        </>
       )}
     </div>
   );

@@ -1,0 +1,464 @@
+export const OPENING_SECTIONS = [
+  {
+    "id": "white",
+    "title": "Play as White",
+    "subtitle": "Choose your first-move repertoire",
+    "openings": [
+      {
+        "id": "italian-game",
+        "name": "Italian Game",
+        "hint": "Develop quickly and create pressure on f7 before central expansion.",
+        "mainline": {
+          "id": "italian-mainline",
+          "name": "Mainline A",
+          "moves": "1.e4 e5 2.Nf3 Nc6 3.Bc4 Bc5 4.c3 Nf6 5.d3 d6 6.O-O O-O 7.Re1 a6 8.Bb3 Ba7 9.Nbd2 h6 10.Nf1 Re8",
+          "summary": "Fast development with pressure on f7."
+        },
+        "variations": [
+          {
+            "id": "italian-two-knights",
+            "name": "Two Knights Defense",
+            "moves": "1.e4 e5 2.Nf3 Nc6 3.Bc4 Nf6 4.d3 Bc5 5.c3 d6 6.O-O O-O 7.Bb3 a6 8.Re1 Ba7 9.Nbd2 h6 10.Nf1",
+            "summary": "Handle early ...Nf6 and keep initiative."
+          },
+          {
+            "id": "italian-giuoco",
+            "name": "Giuoco Piano",
+            "moves": "1.e4 e5 2.Nf3 Nc6 3.Bc4 Bc5 4.c3 Nf6 5.d4 exd4 6.cxd4 Bb4+ 7.Nc3 Bxc3+ 8.bxc3 d5 9.exd5 Nxd5 10.O-O O-O",
+            "summary": "Solid setup with gradual central expansion."
+          },
+          {
+            "id": "italian-early-nf6",
+            "name": "Early ...Nf6 Deviation",
+            "moves": "1.e4 e5 2.Nf3 Nf6 3.Nxe5 d6 4.Nf3 Nxe4 5.d4 d5 6.Bd3 Be7 7.O-O O-O 8.c4 c6 9.Nc3 Nxc3 10.bxc3",
+            "summary": "Simple practical response in fast games."
+          }
+        ]
+      },
+      {
+        "id": "london-system",
+        "name": "London System",
+        "hint": "Keep your structure clean and aim for easy development.",
+        "mainline": {
+          "id": "london-mainline",
+          "name": "Mainline A",
+          "moves": "1.d4 d5 2.Nf3 Nf6 3.Bf4 e6 4.e3 c5 5.c3 Nc6 6.Nbd2 Bd6 7.Bg3 O-O 8.Bd3 Re8 9.Ne5 Qc7 10.f4",
+          "summary": "Flexible setup with clear development plan."
+        },
+        "variations": [
+          {
+            "id": "london-c5",
+            "name": "...c5 Challenge",
+            "moves": "1.d4 d5 2.Bf4 c5 3.e3 Nc6 4.c3 Nf6 5.Nd2 e6 6.Bd3 Bd6 7.Bg3 O-O 8.Ngf3 b6 9.Ne5 Bb7 10.f4",
+            "summary": "Keep center stable and avoid early overextension."
+          },
+          {
+            "id": "london-qb6",
+            "name": "...Qb6 Pressure",
+            "moves": "1.d4 d5 2.Bf4 Nf6 3.e3 c5 4.c3 Nc6 5.Nd2 cxd4 6.exd4 Qb6 7.Nb3 Bf5 8.Nf3 e6 9.Bd3 Bxd3 10.Qxd3",
+            "summary": "Defend b2 cleanly while continuing development."
+          }
+        ]
+      },
+      {
+        "id": "queens-gambit",
+        "name": "Queen's Gambit",
+        "hint": "Use pawn tension to gain central space and active piece play.",
+        "mainline": {
+          "id": "qg-mainline",
+          "name": "Mainline A",
+          "moves": "1.d4 d5 2.c4 e6 3.Nc3 Nf6 4.Bg5 Be7 5.e3 O-O 6.Nf3 h6 7.Bh4 b6 8.cxd5 Nxd5 9.Bxe7 Qxe7 10.Nxd5 exd5",
+          "summary": "Play with space and central tension."
+        },
+        "variations": [
+          {
+            "id": "qg-qga",
+            "name": "QGA",
+            "moves": "1.d4 d5 2.c4 dxc4 3.Nf3 Nf6 4.e3 e6 5.Bxc4 c5 6.O-O a6 7.Qe2 b5 8.Bb3 Bb7 9.Rd1 Nbd7 10.Nc3",
+            "summary": "Recover pawn with active development, not pawn rushing."
+          },
+          {
+            "id": "qg-slav",
+            "name": "Slav Defense",
+            "moves": "1.d4 d5 2.c4 c6 3.Nf3 Nf6 4.Nc3 dxc4 5.a4 Bf5 6.e3 e6 7.Bxc4 Bb4 8.O-O Nbd7 9.Qe2 Bg6 10.e4",
+            "summary": "Use cxd5 moments and piece activity carefully."
+          }
+        ]
+      },
+      {
+        "id": "ruy-lopez",
+        "name": "Ruy Lopez",
+        "hint": "Develop smoothly and build pressure on Black's queenside structure.",
+        "mainline": {
+          "id": "ruy-mainline",
+          "name": "Mainline A",
+          "moves": "1.e4 e5 2.Nf3 Nc6 3.Bb5 a6 4.Ba4 Nf6 5.O-O Be7 6.Re1 b5 7.Bb3 d6 8.c3 O-O 9.h3 Nb8 10.d4",
+          "summary": "Classic Spanish pressure with long-term center control."
+        },
+        "variations": [
+          {
+            "id": "ruy-berlin",
+            "name": "Berlin Defense",
+            "moves": "1.e4 e5 2.Nf3 Nc6 3.Bb5 Nf6 4.O-O Nxe4 5.d4 Nd6 6.Bxc6 dxc6 7.dxe5 Nf5 8.Qxd8+ Kxd8 9.Nc3 h6 10.h3",
+            "summary": "Solid endgame-oriented defense requiring precise technique."
+          },
+          {
+            "id": "ruy-exchange",
+            "name": "Exchange Variation",
+            "moves": "1.e4 e5 2.Nf3 Nc6 3.Bb5 a6 4.Bxc6 dxc6 5.O-O f6 6.d4 exd4 7.Nxd4 c5 8.Nb3 Qxd1 9.Rxd1 b6 10.Bf4",
+            "summary": "Trade bishop pair early and press structural targets."
+          }
+        ]
+      },
+      {
+        "id": "scotch-game",
+        "name": "Scotch Game",
+        "hint": "Open the center early and coordinate pieces quickly.",
+        "mainline": {
+          "id": "scotch-mainline",
+          "name": "Mainline A",
+          "moves": "1.e4 e5 2.Nf3 Nc6 3.d4 exd4 4.Nxd4 Nf6 5.Nxc6 bxc6 6.e5 Qe7 7.Qe2 Nd5 8.c4 Ba6 9.b3 g6 10.Bb2",
+          "summary": "Immediate central confrontation and open lines."
+        },
+        "variations": [
+          {
+            "id": "scotch-schmidt",
+            "name": "Schmidt Variation",
+            "moves": "1.e4 e5 2.Nf3 Nc6 3.d4 exd4 4.Nxd4 Bc5 5.Be3 Qf6 6.c3 Nge7 7.Bc4 O-O 8.O-O d6 9.Nc2 Bb6 10.Bxb6",
+            "summary": "Active piece play with pressure against f2 and central squares."
+          },
+          {
+            "id": "scotch-gambit",
+            "name": "Scotch Gambit",
+            "moves": "1.e4 e5 2.Nf3 Nc6 3.d4 exd4 4.Bc4 Nf6 5.O-O Nxe4 6.Re1 d5 7.Bxd5 Qxd5 8.Nc3 Qa5 9.Nxe4 Be6 10.Bg5",
+            "summary": "Development lead and tactical pressure over quiet structure."
+          }
+        ]
+      },
+      {
+        "id": "english-opening",
+        "name": "English Opening",
+        "hint": "Use flexible setup choices and steer into favorable structures.",
+        "mainline": {
+          "id": "english-mainline",
+          "name": "Mainline A",
+          "moves": "1.c4 e5 2.Nc3 Nf6 3.g3 d5 4.cxd5 Nxd5 5.Bg2 Nb6 6.Nf3 Nc6 7.O-O Be7 8.d3 O-O 9.Be3 Re8 10.Rc1",
+          "summary": "Flexible flank opening with transposition options."
+        },
+        "variations": [
+          {
+            "id": "english-reversed-sicilian",
+            "name": "Reversed Sicilian",
+            "moves": "1.c4 e5 2.Nc3 Nc6 3.g3 g6 4.Bg2 Bg7 5.d3 d6 6.Rb1 a5 7.a3 f5 8.b4 axb4 9.axb4 Nf6 10.b5",
+            "summary": "Space-gaining queenside play with kingside tension."
+          },
+          {
+            "id": "english-symmetrical",
+            "name": "Symmetrical English",
+            "moves": "1.c4 c5 2.Nc3 Nc6 3.g3 g6 4.Bg2 Bg7 5.Nf3 Nf6 6.O-O O-O 7.d4 cxd4 8.Nxd4 Nxd4 9.Qxd4 d6 10.Qd3",
+            "summary": "Mirror structure where move-order precision matters."
+          }
+        ]
+      }
+    ]
+  },
+  {
+    "id": "black-e4",
+    "title": "Play as Black vs 1.e4",
+    "subtitle": "Build practical responses to king pawn openings",
+    "openings": [
+      {
+        "id": "sicilian-defense",
+        "name": "Sicilian Defense",
+        "hint": "Counter in the center and queenside; don't rush pawn grabs.",
+        "mainline": {
+          "id": "sicilian-mainline",
+          "name": "Mainline A",
+          "moves": "1.e4 c5 2.Nf3 d6 3.d4 cxd4 4.Nxd4 Nf6 5.Nc3 a6 6.Bg5 e6 7.f4 Be7 8.Qf3 Qc7 9.O-O-O Nbd7 10.g4 b5",
+          "summary": "Challenge center and develop naturally."
+        },
+        "variations": [
+          {
+            "id": "sicilian-alapin",
+            "name": "Alapin (2.c3)",
+            "moves": "1.e4 c5 2.c3 Nf6 3.e5 Nd5 4.d4 cxd4 5.Nf3 Nc6 6.cxd4 d6 7.Bc4 Nb6 8.Bb3 dxe5 9.Nxe5 Nxe5 10.dxe5",
+            "summary": "Hit center immediately and simplify plans."
+          },
+          {
+            "id": "sicilian-smith-morra",
+            "name": "Smith-Morra",
+            "moves": "1.e4 c5 2.d4 cxd4 3.c3 dxc3 4.Nxc3 Nc6 5.Nf3 d6 6.Bc4 e6 7.O-O Nf6 8.Qe2 Be7 9.Rd1 e5 10.h3",
+            "summary": "Decline complications with practical setup."
+          },
+          {
+            "id": "sicilian-closed",
+            "name": "Closed Sicilian",
+            "moves": "1.e4 c5 2.Nc3 Nc6 3.g3 g6 4.Bg2 Bg7 5.d3 d6 6.f4 e6 7.Nf3 Nge7 8.O-O O-O 9.Be3 Nd4 10.Qd2",
+            "summary": "Build queenside play and control d4 break."
+          }
+        ]
+      },
+      {
+        "id": "caro-kann",
+        "name": "Caro-Kann Defense",
+        "hint": "Solid structure first, then activate your bishop carefully.",
+        "mainline": {
+          "id": "caro-mainline",
+          "name": "Mainline A",
+          "moves": "1.e4 c6 2.d4 d5 3.Nc3 dxe4 4.Nxe4 Bf5 5.Ng3 Bg6 6.h4 h6 7.Nf3 Nd7 8.h5 Bh7 9.Bd3 Bxd3 10.Qxd3",
+          "summary": "Solid center and clear development priorities."
+        },
+        "variations": [
+          {
+            "id": "caro-advance",
+            "name": "Advance Variation",
+            "moves": "1.e4 c6 2.d4 d5 3.e5 Bf5 4.Nf3 e6 5.Be2 c5 6.Be3 Nc6 7.O-O Qb6 8.Nc3 cxd4 9.Nxd4 Nxd4 10.Bxd4",
+            "summary": "Break with ...c5 and pressure d4 chain."
+          },
+          {
+            "id": "caro-exchange",
+            "name": "Exchange Variation",
+            "moves": "1.e4 c6 2.d4 d5 3.exd5 cxd5 4.Bd3 Nc6 5.c3 Nf6 6.Bf4 Bg4 7.Qb3 Qd7 8.Nd2 e6 9.Ngf3 Bd6 10.Bxd6",
+            "summary": "Develop harmoniously and use minority pressure plans."
+          }
+        ]
+      },
+      {
+        "id": "french-defense",
+        "name": "French Defense",
+        "hint": "Challenge White's center base and time your pawn breaks well.",
+        "mainline": {
+          "id": "french-mainline",
+          "name": "Mainline A",
+          "moves": "1.e4 e6 2.d4 d5 3.Nc3 Nf6 4.e5 Nfd7 5.f4 c5 6.Nf3 Nc6 7.Be3 Be7 8.Qd2 O-O 9.O-O-O a6 10.dxc5",
+          "summary": "Counterattacking defense challenging White's center chain."
+        },
+        "variations": [
+          {
+            "id": "french-advance",
+            "name": "Advance Variation",
+            "moves": "1.e4 e6 2.d4 d5 3.e5 c5 4.c3 Nc6 5.Nf3 Qb6 6.Bd3 cxd4 7.cxd4 Bd7 8.O-O Nxd4 9.Nxd4 Qxd4 10.Nc3",
+            "summary": "Strike at d4 and undermine White's advanced center."
+          },
+          {
+            "id": "french-exchange",
+            "name": "Exchange Variation",
+            "moves": "1.e4 e6 2.d4 d5 3.exd5 exd5 4.Nf3 Bd6 5.Bd3 Ne7 6.O-O O-O 7.c4 dxc4 8.Bxc4 Nd7 9.Nc3 Nb6 10.Bb3",
+            "summary": "Equal structure but rich piece-play plans."
+          }
+        ]
+      },
+      {
+        "id": "pirc-defense",
+        "name": "Pirc Defense",
+        "hint": "Let White occupy center first, then challenge at the right moment.",
+        "mainline": {
+          "id": "pirc-mainline",
+          "name": "Mainline A",
+          "moves": "1.e4 d6 2.d4 Nf6 3.Nc3 g6 4.Nf3 Bg7 5.Be2 O-O 6.O-O c6 7.a4 a5 8.Re1 Na6 9.h3 Nb4 10.Bf1",
+          "summary": "Hypermodern setup inviting center before counterplay."
+        },
+        "variations": [
+          {
+            "id": "pirc-austrian",
+            "name": "Austrian Attack",
+            "moves": "1.e4 d6 2.d4 Nf6 3.Nc3 g6 4.f4 Bg7 5.Nf3 O-O 6.Bd3 Na6 7.O-O c5 8.d5 Nc7 9.a4 e6 10.dxe6",
+            "summary": "White grabs space; Black seeks dynamic breaks."
+          },
+          {
+            "id": "pirc-classical",
+            "name": "Classical Setup",
+            "moves": "1.e4 d6 2.d4 Nf6 3.Nc3 g6 4.Nf3 Bg7 5.Bc4 O-O 6.O-O c6 7.Bb3 b5 8.Re1 b4 9.Na4 Nxe4 10.Rxe4",
+            "summary": "Fight for center control while balancing king safety."
+          }
+        ]
+      },
+      {
+        "id": "scandinavian-defense",
+        "name": "Scandinavian Defense",
+        "hint": "Stay active and avoid losing time with repeated queen moves.",
+        "mainline": {
+          "id": "scandi-mainline",
+          "name": "Mainline A",
+          "moves": "1.e4 d5 2.exd5 Qxd5 3.Nc3 Qa5 4.d4 c6 5.Nf3 Bf5 6.Bc4 e6 7.O-O Nd7 8.Bd2 Qc7 9.Re1 Ngf6 10.Ne5",
+          "summary": "Immediate central challenge with practical piece development."
+        },
+        "variations": [
+          {
+            "id": "scandi-portuguese",
+            "name": "Portuguese Gambit",
+            "moves": "1.e4 d5 2.exd5 Nf6 3.d4 Bg4 4.Nf3 Nxd5 5.Be2 e6 6.O-O Be7 7.c4 Nb6 8.Nc3 O-O 9.Be3 Nc6 10.h3",
+            "summary": "Develop quickly and seek initiative for the pawn."
+          },
+          {
+            "id": "scandi-qd6",
+            "name": "Qd6 System",
+            "moves": "1.e4 d5 2.exd5 Qxd5 3.Nc3 Qd6 4.d4 Nf6 5.Nf3 c6 6.g3 Bg4 7.Bg2 e6 8.O-O Nbd7 9.Bf4 Qb4 10.Rb1",
+            "summary": "Keep queen flexible and build a durable structure."
+          }
+        ]
+      },
+      {
+        "id": "alekhine-defense",
+        "name": "Alekhine Defense",
+        "hint": "Attack White's center later instead of contesting it immediately.",
+        "mainline": {
+          "id": "alekhine-mainline",
+          "name": "Mainline A",
+          "moves": "1.e4 Nf6 2.e5 Nd5 3.d4 d6 4.Nf3 g6 5.Bc4 Nb6 6.Bb3 Bg7 7.O-O O-O 8.h3 Nc6 9.Re1 dxe5 10.dxe5",
+          "summary": "Provoke space gain and later attack the overextended center."
+        },
+        "variations": [
+          {
+            "id": "alekhine-four-pawns",
+            "name": "Four Pawns Attack",
+            "moves": "1.e4 Nf6 2.e5 Nd5 3.d4 d6 4.c4 Nb6 5.f4 dxe5 6.fxe5 Nc6 7.Be3 Bf5 8.Nc3 e6 9.Nf3 Be7 10.Be2",
+            "summary": "Sharp central expansion that demands precise defense."
+          },
+          {
+            "id": "alekhine-exchange",
+            "name": "Exchange Line",
+            "moves": "1.e4 Nf6 2.e5 Nd5 3.d4 d6 4.Nf3 dxe5 5.Nxe5 c6 6.Bd3 Nd7 7.O-O Nxe5 8.dxe5 Nb4 9.Be4 Qxd1 10.Rxd1",
+            "summary": "Simplify tactically and then play against structure."
+          }
+        ]
+      }
+    ]
+  },
+  {
+    "id": "black-d4",
+    "title": "Play as Black vs 1.d4",
+    "subtitle": "Choose your structure-based defense",
+    "openings": [
+      {
+        "id": "qgd",
+        "name": "Queen's Gambit Declined",
+        "hint": "Stay compact and challenge the center with timely ...c5.",
+        "mainline": {
+          "id": "qgd-mainline",
+          "name": "Mainline A",
+          "moves": "1.d4 d5 2.c4 e6 3.Nc3 Nf6 4.Bg5 Be7 5.e3 O-O 6.Nf3 h6 7.Bh4 b6 8.cxd5 Nxd5 9.Bxe7 Qxe7 10.Nxd5",
+          "summary": "Compact setup with timely ...c5 break."
+        },
+        "variations": [
+          {
+            "id": "qgd-exchange",
+            "name": "Exchange QGD",
+            "moves": "1.d4 d5 2.c4 e6 3.Nc3 Nf6 4.cxd5 exd5 5.Bg5 c6 6.e3 Bf5 7.Qf3 Bg6 8.Bxf6 Qxf6 9.Qxf6 gxf6 10.Nge2",
+            "summary": "Understand isolated pawn vs hanging pawn plans."
+          },
+          {
+            "id": "qgd-orthodox",
+            "name": "Orthodox",
+            "moves": "1.d4 d5 2.c4 e6 3.Nc3 Nf6 4.Bg5 Be7 5.e3 O-O 6.Nf3 Nbd7 7.Rc1 c6 8.Bd3 dxc4 9.Bxc4 Nd5 10.Bxe7",
+            "summary": "Neutralize pin pressure and complete development."
+          }
+        ]
+      },
+      {
+        "id": "kings-indian",
+        "name": "King's Indian Defense",
+        "hint": "Allow center space, then counterattack with ...e5 or ...c5.",
+        "mainline": {
+          "id": "kid-mainline",
+          "name": "Mainline A",
+          "moves": "1.d4 Nf6 2.c4 g6 3.Nc3 Bg7 4.e4 d6 5.Nf3 O-O 6.Be2 e5 7.O-O Nc6 8.d5 Ne7 9.Ne1 Nd7 10.Nd3",
+          "summary": "Flexible setup before central counterplay."
+        },
+        "variations": [
+          {
+            "id": "kid-classical",
+            "name": "Classical",
+            "moves": "1.d4 Nf6 2.c4 g6 3.Nc3 Bg7 4.e4 d6 5.Nf3 O-O 6.Be2 e5 7.O-O Nc6 8.d5 Ne7 9.Ne1 Nd7 10.Be3",
+            "summary": "Prepare ...e5 break and kingside initiative."
+          },
+          {
+            "id": "kid-fianchetto",
+            "name": "Fianchetto",
+            "moves": "1.d4 Nf6 2.c4 g6 3.Nf3 Bg7 4.g3 O-O 5.Bg2 d6 6.O-O Nc6 7.Nc3 e5 8.d5 Ne7 9.e4 Nd7 10.Ne1",
+            "summary": "Choose structure and avoid overcommitting too early."
+          }
+        ]
+      },
+      {
+        "id": "nimzo-indian",
+        "name": "Nimzo-Indian Defense",
+        "hint": "Use piece pressure and structural targets, not just direct tactics.",
+        "mainline": {
+          "id": "nimzo-mainline",
+          "name": "Mainline A",
+          "moves": "1.d4 Nf6 2.c4 e6 3.Nc3 Bb4 4.e3 O-O 5.Bd3 d5 6.Nf3 c5 7.O-O Nc6 8.a3 Bxc3 9.bxc3 dxc4 10.Bxc4",
+          "summary": "Pin and pressure strategy against White's center and structure."
+        },
+        "variations": [
+          {
+            "id": "nimzo-rubinstein",
+            "name": "Rubinstein",
+            "moves": "1.d4 Nf6 2.c4 e6 3.Nc3 Bb4 4.e3 c5 5.Bd3 Nc6 6.Nf3 Bxc3+ 7.bxc3 d6 8.O-O e5 9.Nd2 O-O 10.Bb2",
+            "summary": "Strategic line with flexible central break timing."
+          },
+          {
+            "id": "nimzo-classical",
+            "name": "Classical (4.Qc2)",
+            "moves": "1.d4 Nf6 2.c4 e6 3.Nc3 Bb4 4.Qc2 O-O 5.a3 Bxc3+ 6.Qxc3 b6 7.Bg5 Bb7 8.e3 d6 9.Ne2 Nbd7 10.f3",
+            "summary": "White keeps bishop pair; Black seeks dark-square control."
+          }
+        ]
+      },
+      {
+        "id": "grunfeld-defense",
+        "name": "Grunfeld Defense",
+        "hint": "Counter White's center with rapid piece pressure and ...c5.",
+        "mainline": {
+          "id": "grunfeld-mainline",
+          "name": "Mainline A",
+          "moves": "1.d4 Nf6 2.c4 g6 3.Nc3 d5 4.cxd5 Nxd5 5.e4 Nxc3 6.bxc3 Bg7 7.Nf3 c5 8.Rb1 O-O 9.Be2 cxd4 10.cxd4",
+          "summary": "Dynamic central tension and active piece counterplay."
+        },
+        "variations": [
+          {
+            "id": "grunfeld-russian",
+            "name": "Russian System",
+            "moves": "1.d4 Nf6 2.c4 g6 3.Nc3 d5 4.Nf3 Bg7 5.Qb3 dxc4 6.Qxc4 O-O 7.e4 a6 8.Be2 b5 9.Qb3 c5 10.dxc5",
+            "summary": "The queen line tests Black's activity and pawn breaks."
+          },
+          {
+            "id": "grunfeld-exchange",
+            "name": "Exchange Variation",
+            "moves": "1.d4 Nf6 2.c4 g6 3.Nc3 d5 4.cxd5 Nxd5 5.Bd2 Bg7 6.e4 Nxc3 7.Bxc3 O-O 8.Nf3 c5 9.d5 e6 10.Bxg7",
+            "summary": "Exchange structure where tempi and activity are critical."
+          }
+        ]
+      },
+      {
+        "id": "slav-defense",
+        "name": "Slav Defense",
+        "hint": "Build a resilient structure and challenge White at the right moment.",
+        "mainline": {
+          "id": "slav-mainline",
+          "name": "Mainline A",
+          "moves": "1.d4 d5 2.c4 c6 3.Nf3 Nf6 4.Nc3 dxc4 5.a4 Bf5 6.e3 e6 7.Bxc4 Bb4 8.O-O Nbd7 9.Qe2 Bg6 10.e4",
+          "summary": "Solid defense with reliable structure and active development."
+        },
+        "variations": [
+          {
+            "id": "slav-semi-slav",
+            "name": "Semi-Slav",
+            "moves": "1.d4 d5 2.c4 c6 3.Nf3 Nf6 4.Nc3 e6 5.e3 Nbd7 6.Bd3 dxc4 7.Bxc4 b5 8.Bd3 a6 9.e4 c5 10.e5",
+            "summary": "Richer pawn structure with dynamic central play."
+          },
+          {
+            "id": "slav-exchange",
+            "name": "Exchange Slav",
+            "moves": "1.d4 d5 2.c4 c6 3.cxd5 cxd5 4.Nc3 Nc6 5.Bf4 Bf5 6.e3 e6 7.Bd3 Bxd3 8.Qxd3 Nf6 9.Nf3 Bd6 10.Bg3",
+            "summary": "Symmetrical pawn structure with strategic maneuvering."
+          }
+        ]
+      }
+    ]
+  }
+];
+
+export const ALL_OPENINGS = OPENING_SECTIONS.flatMap((section) =>
+  section.openings.map((opening) => ({ ...opening, sectionId: section.id }))
+);
