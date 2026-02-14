@@ -1,4 +1,4 @@
-import { openingLines } from "../lib/openingTraining";
+import { openingLineRoots, openingLines } from "../lib/openingTraining";
 
 export function OpeningDetail({
   opening,
@@ -10,7 +10,19 @@ export function OpeningDetail({
   sessionActive,
 }) {
   const lines = openingLines(opening);
+  const roots = openingLineRoots(opening);
+
+  const parentById = {};
+  for (const root of roots) {
+    for (const child of root.children ?? []) {
+      parentById[child.id] = root.id;
+    }
+  }
+
   const selectedLine = lines.find((line) => line.id === selectedLineId) ?? lines[0];
+  const selectedRootId = parentById[selectedLine?.id] ?? selectedLine?.id ?? roots[0]?.id;
+  const selectedRoot = roots.find((line) => line.id === selectedRootId) ?? roots[0];
+  const selectedSubVariations = selectedRoot?.children ?? [];
 
   return (
     <section className="opening-detail-layout single-column-layout">
@@ -25,22 +37,13 @@ export function OpeningDetail({
         </article>
 
         <article className="line-group-card">
-          <h3>Mainline</h3>
-          <div className={`line-card ${opening.mainline.id === selectedLineId ? "active" : ""}`}>
-            <div>
-              <strong>{opening.mainline.name}</strong>
-              <p>{opening.mainline.moves}</p>
-              <small>{opening.mainline.summary}</small>
-            </div>
-            <button onClick={() => onSelectLine(opening.mainline.id)}>Select</button>
-          </div>
-        </article>
-
-        <article className="line-group-card">
-          <h3>Variations</h3>
+          <h3>Main Lines</h3>
           <div className="variation-grid">
-            {opening.variations.map((variation) => (
-              <div key={variation.id} className={`line-card ${variation.id === selectedLineId ? "active" : ""}`}>
+            {roots.map((variation) => (
+              <div
+                key={variation.id}
+                className={`line-card ${variation.id === selectedRootId ? "active" : ""}`}
+              >
                 <div>
                   <strong>{variation.name}</strong>
                   <p>{variation.moves}</p>
@@ -50,6 +53,26 @@ export function OpeningDetail({
               </div>
             ))}
           </div>
+        </article>
+
+        <article className="line-group-card">
+          <h3>Sub-Variations</h3>
+          {selectedSubVariations.length === 0 ? (
+            <p>No sub-variations defined for this line yet.</p>
+          ) : (
+            <div className="variation-grid">
+              {selectedSubVariations.map((variation) => (
+                <div key={variation.id} className={`line-card ${variation.id === selectedLineId ? "active" : ""}`}>
+                  <div>
+                    <strong>{variation.name}</strong>
+                    <p>{variation.moves}</p>
+                    <small>{variation.summary}</small>
+                  </div>
+                  <button onClick={() => onSelectLine(variation.id)}>Select</button>
+                </div>
+              ))}
+            </div>
+          )}
         </article>
 
         <article className="line-group-card opening-actions">

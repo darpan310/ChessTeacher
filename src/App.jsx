@@ -11,17 +11,18 @@ import {
   explainMoveIdea,
   gameFromFen,
   getSanSequenceForLine,
+  getDefaultLine,
+  getLineById,
   getUserSideForOpening,
   initBoardStateFromLine,
   initSessionFromLine,
-  openingLines,
 } from "./lib/openingTraining";
 
 export default function App() {
   const AUTO_REPLY_DELAY_MS = 600;
   const [view, setView] = useState("dashboard");
   const [selectedOpeningId, setSelectedOpeningId] = useState(ALL_OPENINGS[0].id);
-  const [selectedLineId, setSelectedLineId] = useState(ALL_OPENINGS[0].mainline.id);
+  const [selectedLineId, setSelectedLineId] = useState(getDefaultLine(ALL_OPENINGS[0])?.id ?? "");
   const [orientation, setOrientation] = useState("white");
   const [status, setStatus] = useState("Choose an opening card, then select a line.");
 
@@ -56,10 +57,10 @@ export default function App() {
   const selectedOpening = openingsById[selectedOpeningId] ?? selectedOpeningSummary;
   const isSelectedOpeningLoaded = Boolean(openingsById[selectedOpeningId]);
 
-  const selectedLine = useMemo(() => {
-    const lines = openingLines(selectedOpening);
-    return lines.find((line) => line.id === selectedLineId) ?? lines[0];
-  }, [selectedOpening, selectedLineId]);
+  const selectedLine = useMemo(
+    () => getLineById(selectedOpening, selectedLineId),
+    [selectedOpening, selectedLineId]
+  );
 
   const userSide = useMemo(() => getUserSideForOpening(selectedOpening), [selectedOpening]);
   const linePlyCount = session.plan.length;
@@ -108,19 +109,20 @@ export default function App() {
 
     const board = initBoardStateFromLine();
     setSelectedOpeningId(openingSummary.id);
-    setSelectedLineId(openingSummary.mainline.id);
+    setSelectedLineId(getDefaultLine(openingSummary)?.id ?? "");
     setBoardFen(board.fen);
     setMoveLog(board.history);
     setAttempts([]);
-    setSession(initSessionFromLine(openingSummary.mainline));
+    setSession(initSessionFromLine(getDefaultLine(openingSummary)));
     setStatus(`Loading ${openingSummary.name}...`);
     setView("opening");
 
     try {
       const openingFull = await loadOpeningById(openingId);
       setOpeningsById((prev) => ({ ...prev, [openingId]: openingFull }));
-      setSelectedLineId(openingFull.mainline.id);
-      setSession(initSessionFromLine(openingFull.mainline));
+      const defaultLine = getDefaultLine(openingFull);
+      setSelectedLineId(defaultLine?.id ?? "");
+      setSession(initSessionFromLine(defaultLine));
       setStatus(`Opened ${openingFull.name}. Mainline selected.`);
     } catch (error) {
       const message = error instanceof Error ? error.message : "Unknown opening load error";
@@ -134,7 +136,7 @@ export default function App() {
       setStatus(`Opening data is still loading. Try selecting ${selectedOpeningSummary.name} again in a moment.`);
       return;
     }
-    const line = openingLines(selectedOpening).find((item) => item.id === lineId);
+    const line = getLineById(selectedOpening, lineId);
     if (!line) return;
 
     const sanMoves = getSanSequenceForLine(line);

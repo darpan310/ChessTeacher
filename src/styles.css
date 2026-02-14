@@ -216,6 +216,12 @@ body {
   gap: 10px;
 }
 
+.line-tree-grid {
+  margin-top: 8px;
+  display: grid;
+  gap: 10px;
+}
+
 .line-card strong {
   display: block;
   font-size: 15px;
