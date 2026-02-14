@@ -1,4 +1,4 @@
-import { useMemo } from "react";
+import { useEffect, useMemo } from "react";
 import { Chess } from "chess.js";
 import { Chessboard } from "react-chessboard";
 import { openingLines } from "../lib/openingTraining";
@@ -62,6 +62,59 @@ export function PracticeSession({
       [lastMove.to]: highlight,
     };
   }, [moveLog]);
+  const suggestedArrow = useMemo(() => {
+    const stableEngineBestmove =
+      isDeviationMode && engineAnalysis?.fen === boardFen ? engineAnalysis?.bestmoveUci : null;
+
+    if (suggestedMove?.san) {
+      const chess = new Chess(boardFen);
+      try {
+        const move = chess.move(suggestedMove.san);
+        if (move?.from && move?.to) {
+          return {
+            startSquare: move.from,
+            endSquare: move.to,
+            color: "rgba(126, 211, 120, 0.85)",
+          };
+        }
+      } catch {
+        // Ignore if SAN cannot be resolved from current board state.
+      }
+    }
+
+    const uci = stableEngineBestmove;
+    if (uci && uci.length >= 4 && uci !== "(none)") {
+      return {
+        startSquare: uci.slice(0, 2),
+        endSquare: uci.slice(2, 4),
+        color: "rgba(126, 211, 120, 0.85)",
+      };
+    }
+    return null;
+  }, [boardFen, suggestedMove, engineAnalysis, isDeviationMode]);
+
+  useEffect(() => {
+    console.debug("[arrow] suggested-move inputs", {
+      boardFen,
+      suggestedMoveSan: suggestedMove?.san ?? null,
+      engineBestmoveUci: engineAnalysis?.bestmoveUci ?? null,
+    });
+    console.debug("[arrow] computed arrow", suggestedArrow);
+  }, [boardFen, suggestedMove, engineAnalysis, suggestedArrow]);
+
+  const arrowsPayload = suggestedArrow
+    ? [
+        {
+          startSquare: suggestedArrow.startSquare,
+          endSquare: suggestedArrow.endSquare,
+          color: suggestedArrow.color,
+        },
+      ]
+    : [];
+
+  useEffect(() => {
+    console.debug("[arrow] payload to board", arrowsPayload);
+  }, [arrowsPayload]);
 
   return (
     <section className="practice-page-layout">
@@ -112,6 +165,7 @@ export function PracticeSession({
                     boxShadow: "0 12px 28px rgba(0, 0, 0, 0.2)",
                   },
                   squareStyles: lastMoveHighlightStyles,
+                  arrows: arrowsPayload,
                   showNotation: true,
                   animationDurationInMs: 150,
                 }}

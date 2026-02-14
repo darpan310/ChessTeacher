@@ -130,26 +130,45 @@ export default function App() {
     }
   };
 
-  const onSelectLine = (lineId) => {
+  const startLineLearn = (lineId) => {
     clearPendingAutoReply();
     if (!isSelectedOpeningLoaded) {
-      setStatus(`Opening data is still loading. Try selecting ${selectedOpeningSummary.name} again in a moment.`);
+      setStatus(`Opening data is still loading for ${selectedOpeningSummary.name}.`);
       return;
     }
     const line = getLineById(selectedOpening, lineId);
     if (!line) return;
 
     const sanMoves = getSanSequenceForLine(line);
-    console.log(`[debug] Selected line: ${line.name}`);
+    console.log(`[debug] Start line: ${line.name}`);
     console.log("[debug] SAN moves:", sanMoves);
 
     const board = initBoardStateFromLine();
+    const nextSession = initSessionFromLine(line);
+    const advanced = advanceComputerMoves(
+      board.fen,
+      board.history,
+      { ...nextSession, active: true },
+      userSide
+    );
+
     setSelectedLineId(line.id);
-    setBoardFen(board.fen);
-    setMoveLog(board.history);
+    setBoardFen(advanced.fen);
+    setMoveLog(advanced.history);
     setAttempts([]);
-    setSession(initSessionFromLine(line));
-    setStatus(`Selected ${line.name}. Moves: ${sanMoves.join(" ")}.`);
+    setSession({
+      ...nextSession,
+      active: !advanced.completed,
+      stepIndex: advanced.stepIndex,
+    });
+    if (advanced.completed) {
+      setStatus(`Started learn on ${line.name}. Line already complete.`);
+    } else if (advanced.autoMoves.length > 0) {
+      setStatus(`Started learn on ${line.name}. Computer played: ${advanced.autoMoves.join(" ")}. Your move.`);
+    } else {
+      setStatus(`Started learn on ${line.name}. Your move.`);
+    }
+    setView("play");
   };
 
   const resetToSelectedLine = () => {
@@ -191,42 +210,6 @@ export default function App() {
     setSession(baseSession);
     setAttempts([]);
     setStatus(`Reset to ${selectedLine.name}. Click Start to begin again.`);
-  };
-
-  const startLearn = () => {
-    clearPendingAutoReply();
-    if (!isSelectedOpeningLoaded) {
-      setStatus(`Opening data is still loading for ${selectedOpeningSummary.name}.`);
-      return;
-    }
-    const board = initBoardStateFromLine();
-    const nextSession = initSessionFromLine(selectedLine);
-    const advanced = advanceComputerMoves(
-      board.fen,
-      board.history,
-      { ...nextSession, active: true },
-      userSide
-    );
-
-    setBoardFen(advanced.fen);
-    setMoveLog(advanced.history);
-    setAttempts([]);
-    setSession({
-      ...nextSession,
-      active: !advanced.completed,
-      stepIndex: advanced.stepIndex,
-    });
-    if (advanced.completed) {
-      setStatus(`Started learn on ${selectedLine.name}. Line already complete.`);
-      return;
-    }
-    if (advanced.autoMoves.length > 0) {
-      setStatus(
-        `Started learn on ${selectedLine.name}. Computer played: ${advanced.autoMoves.join(" ")}. Your move.`
-      );
-      return;
-    }
-    setStatus(`Started learn on ${selectedLine.name}. Your move.`);
   };
 
   const onDrop = (arg1, arg2, arg3) => {
@@ -410,14 +393,9 @@ export default function App() {
             <OpeningDetail
               opening={selectedOpening}
               selectedLineId={selectedLineId}
-              onSelectLine={onSelectLine}
               onBack={() => setView("dashboard")}
-              onStartLearn={() => {
-                startLearn();
-                setView("play");
-              }}
-              linePlyCount={linePlyCount}
-              sessionActive={session.active}
+              onSelectLine={setSelectedLineId}
+              onStartLine={startLineLearn}
             />
           ) : (
             <PracticeSession

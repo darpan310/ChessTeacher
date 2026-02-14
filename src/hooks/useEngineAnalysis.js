@@ -94,6 +94,7 @@ export function useEngineAnalysis(boardFen) {
         const bestmoveSan = uciToSan(boardFen, analysis.bestmoveUci);
         setEngineAnalysis({
           ...analysis,
+          fen: boardFen,
           bestmoveSan,
         });
         setEngineStatus(

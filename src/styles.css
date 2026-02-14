@@ -95,6 +95,10 @@ body {
   gap: 8px;
 }
 
+.line-group-card .line-card {
+  cursor: pointer;
+}
+
 .opening-card.active,
 .line-card.active {
   border-color: #2a9d8f;
@@ -222,6 +226,60 @@ body {
   gap: 10px;
 }
 
+.line-tree-node {
+  display: grid;
+  gap: 8px;
+}
+
+.line-children {
+  display: grid;
+  gap: 8px;
+  margin-left: 18px;
+  border-left: 2px solid #d9e2ec;
+  padding-left: 10px;
+}
+
+.line-actions {
+  display: flex;
+  align-items: center;
+  gap: 6px;
+}
+
+.line-actions button {
+  cursor: pointer;
+}
+
+.line-title-row {
+  display: inline-flex;
+  align-items: center;
+  gap: 6px;
+}
+
+.inline-toggle {
+  width: 22px;
+  height: 22px;
+}
+
+.inline-toggle-spacer {
+  width: 22px;
+  display: inline-block;
+}
+
+.toggle-btn {
+  width: 28px;
+  height: 28px;
+  padding: 0;
+  display: inline-flex;
+  align-items: center;
+  justify-content: center;
+  border-radius: 6px;
+  background: #f0f4f8 !important;
+  color: #102a43 !important;
+  border: 1px solid #bcccdc;
+  font-size: 12px;
+  font-weight: 700;
+}
+
 .line-card strong {
   display: block;
   font-size: 15px;
@@ -243,6 +301,14 @@ body {
   align-self: start;
   display: grid;
   gap: 10px;
+}
+
+.preview-panel {
+  min-width: 320px;
+}
+
+.preview-board-wrap {
+  max-width: 430px;
 }
 
 .practice-page-layout {
