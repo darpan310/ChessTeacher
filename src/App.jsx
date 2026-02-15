@@ -32,9 +32,11 @@ export default function App() {
   const [moveLog, setMoveLog] = useState(initialBoard.history);
   const [attempts, setAttempts] = useState([]);
   const [session, setSession] = useState(initialSession);
+  const [undoStack, setUndoStack] = useState([]);
   const [isComputerThinking, setIsComputerThinking] = useState(false);
   const [openingsById, setOpeningsById] = useState({});
   const autoReplyTimeoutRef = useRef(null);
+  const stateSnapshotRef = useRef(null);
 
   const clearPendingAutoReply = () => {
     if (autoReplyTimeoutRef.current) {
@@ -45,10 +47,52 @@ export default function App() {
   };
 
   useEffect(() => {
+    stateSnapshotRef.current = {
+      boardFen,
+      moveLog,
+      attempts,
+      session,
+      status,
+    };
+  }, [boardFen, moveLog, attempts, session, status]);
+
+  useEffect(() => {
     return () => {
       if (autoReplyTimeoutRef.current) clearTimeout(autoReplyTimeoutRef.current);
     };
   }, []);
+
+  const cloneSession = (value) => ({
+    ...value,
+    plan: Array.isArray(value?.plan) ? [...value.plan] : [],
+  });
+
+  const snapshotCurrentState = () => {
+    const state = stateSnapshotRef.current;
+    if (!state) return null;
+    return {
+      boardFen: state.boardFen,
+      moveLog: [...state.moveLog],
+      attempts: state.attempts.map((item) => ({ ...item })),
+      session: cloneSession(state.session),
+      status: state.status,
+    };
+  };
+
+  const recordUndoSnapshot = () => {
+    const snapshot = snapshotCurrentState();
+    if (!snapshot) return;
+    setUndoStack((prev) => [...prev, snapshot]);
+  };
+
+  const restoreSnapshot = (snapshot) => {
+    if (!snapshot) return;
+    setBoardFen(snapshot.boardFen);
+    setMoveLog(snapshot.moveLog);
+    setAttempts(snapshot.attempts);
+    setSession(cloneSession(snapshot.session));
+    setStatus(snapshot.status);
+  };
 
   const selectedOpeningSummary = useMemo(
     () => ALL_OPENINGS.find((opening) => opening.id === selectedOpeningId) ?? ALL_OPENINGS[0],
@@ -114,6 +158,7 @@ export default function App() {
     setMoveLog(board.history);
     setAttempts([]);
     setSession(initSessionFromLine(getDefaultLine(openingSummary)));
+    setUndoStack([]);
     setStatus(`Loading ${openingSummary.name}...`);
     setView("opening");
 
@@ -156,6 +201,7 @@ export default function App() {
     setBoardFen(advanced.fen);
     setMoveLog(advanced.history);
     setAttempts([]);
+    setUndoStack([]);
     setSession({
       ...nextSession,
       active: !advanced.completed,
@@ -201,6 +247,7 @@ export default function App() {
         stepIndex: advanced.stepIndex,
       });
       setAttempts([]);
+      setUndoStack([]);
       setStatus(`Reset ${selectedLine.name}. Learning restarted.`);
       return;
     }
@@ -209,7 +256,21 @@ export default function App() {
     setBoardFen(baseBoard.fen);
     setSession(baseSession);
     setAttempts([]);
+    setUndoStack([]);
     setStatus(`Reset to ${selectedLine.name}. Click Start to begin again.`);
+  };
+
+  const undoLastMove = () => {
+    clearPendingAutoReply();
+    setUndoStack((prev) => {
+      if (!prev.length) {
+        setStatus("Nothing to undo.");
+        return prev;
+      }
+      const snapshot = prev[prev.length - 1];
+      restoreSnapshot(snapshot);
+      return prev.slice(0, -1);
+    });
   };
 
   const onDrop = (arg1, arg2, arg3) => {
@@ -252,11 +313,6 @@ export default function App() {
       const targetRank = targetSquare?.[1];
       const isPromotion = isPawn && (targetRank === "1" || targetRank === "8");
 
-      if (session.active && !session.deviated && chess.turn() !== userSide) {
-        setStatus("Wait for computer move. This position expects the other side to move.");
-        return false;
-      }
-
       let move = null;
       try {
         move = chess.move({
@@ -277,6 +333,7 @@ export default function App() {
       }
 
       if (!session.active) {
+        recordUndoSnapshot();
         setAttempts((prev) => [{ label: `${move.san} (free play)`, inLine: true }, ...prev].slice(0, 8));
         setBoardFen(chess.fen());
         setMoveLog((prev) => [...prev, move.san]);
@@ -285,6 +342,7 @@ export default function App() {
       }
 
       if (session.deviated) {
+        recordUndoSnapshot();
         setBoardFen(chess.fen());
         setMoveLog((prev) => [...prev, move.san]);
         setAttempts((prev) => [{ label: `${move.san} (deviation mode)`, inLine: false }, ...prev].slice(0, 8));
@@ -302,6 +360,7 @@ export default function App() {
 
       const inLine = expected.san === move.san;
       if (!inLine) {
+        recordUndoSnapshot();
         setBoardFen(chess.fen());
         setMoveLog((prev) => [...prev, move.san]);
         setSession((prev) => ({ ...prev, deviated: true, active: true }));
@@ -323,6 +382,7 @@ export default function App() {
       const historyAfterUser = [...moveLog, move.san];
       const advanced = advanceComputerMoves(chess.fen(), historyAfterUser, postUserSession, userSide);
       const completed = advanced.completed;
+      recordUndoSnapshot();
       setAttempts((prev) => [{ label: `${move.san} (on line)`, inLine: true }, ...prev].slice(0, 8));
       if (advanced.autoMoves.length > 0) {
         setBoardFen(chess.fen());
@@ -338,6 +398,7 @@ export default function App() {
         if (autoReplyTimeoutRef.current) clearTimeout(autoReplyTimeoutRef.current);
         autoReplyTimeoutRef.current = setTimeout(() => {
           autoReplyTimeoutRef.current = null;
+          recordUndoSnapshot();
           setBoardFen(advanced.fen);
           setMoveLog(advanced.history);
           setSession((prev) => ({
@@ -405,6 +466,8 @@ export default function App() {
               orientation={orientation}
               onDrop={onDrop}
               onFlipBoard={() => setOrientation((value) => (value === "white" ? "black" : "white"))}
+              onUndoMove={undoLastMove}
+              canUndoMove={undoStack.length > 0}
               onResetToLine={resetToSelectedLine}
               onBackToOpening={() => setView("opening")}
               onBackToDashboard={() => setView("dashboard")}

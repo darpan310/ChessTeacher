@@ -171,8 +171,19 @@ body {
 .opening-detail-layout {
   margin-top: 14px;
   display: grid;
+  gap: 16px;
+  align-items: start;
+}
+
+.opening-header-full {
+  width: 100%;
+}
+
+.opening-detail-panels {
+  display: grid;
   grid-template-columns: minmax(700px, 1.2fr) minmax(360px, 0.8fr);
   gap: 16px;
+  align-items: start;
 }
 
 .single-column-layout {
@@ -305,10 +316,34 @@ body {
 
 .preview-panel {
   min-width: 320px;
+  width: 100%;
+  margin-top: 0;
 }
 
 .preview-board-wrap {
-  max-width: 430px;
+  width: 100%;
+}
+
+.opening-preview-head {
+  gap: 4px;
+}
+
+.preview-kicker {
+  margin: 0;
+  font-size: 12px;
+  font-weight: 700;
+  letter-spacing: 0.04em;
+  text-transform: uppercase;
+  color: #5f7080;
+}
+
+.preview-line-name {
+  margin: 0;
+  font-size: 16px;
+  line-height: 1.3;
+  color: #102a43;
+  font-weight: 700;
+  word-break: break-word;
 }
 
 .practice-page-layout {
@@ -391,29 +426,96 @@ body {
   flex-wrap: wrap;
 }
 
-.practice-controls button {
+.control-btn {
   padding: 9px 12px;
   color: #ffffff;
+  border: none;
+  border-radius: 8px;
+  cursor: pointer;
+  font-weight: 600;
 }
 
-.practice-controls button:first-child {
+.control-btn-primary {
   background: #1f7a8c;
 }
 
-.practice-controls button:last-child {
+.control-btn-secondary {
   background: #355070;
+}
+
+.control-btn-danger {
+  background: #a63a3a;
+}
+
+.control-btn:disabled {
+  opacity: 0.5;
+  cursor: not-allowed;
 }
 
 .board-row {
   width: 100%;
-  display: grid;
-  grid-template-columns: 26px 1fr;
-  gap: 10px;
-  align-items: stretch;
+  display: block;
 }
 
 .board-wrap {
   width: 100%;
+  display: grid;
+  gap: 4px;
+}
+
+.board-inner-row {
+  width: 100%;
+  display: grid;
+  grid-template-columns: 26px minmax(0, 1fr);
+  gap: 10px;
+  align-items: stretch;
+}
+
+.board-core {
+  width: 100%;
+}
+
+.capture-strip {
+  min-height: 28px;
+  display: flex;
+  align-items: center;
+  gap: 8px;
+  padding: 4px 8px;
+  border-radius: 8px;
+  background: rgba(181, 136, 99, 0.12);
+}
+
+.capture-strip-bottom {
+  padding: 4px 8px;
+}
+
+.capture-label {
+  min-width: 44px;
+  font-size: 12px;
+  font-weight: 700;
+  color: #5d4634;
+}
+
+.capture-icons {
+  display: inline-flex;
+  gap: 4px;
+  flex-wrap: wrap;
+  min-height: 20px;
+  align-items: center;
+}
+
+.capture-piece-img {
+  width: 19px;
+  height: 19px;
+  object-fit: contain;
+  display: inline-block;
+}
+
+.capture-score {
+  margin-left: 6px;
+  font-size: 13px;
+  font-weight: 700;
+  color: #6d4f38;
 }
 
 .eval-bar {
@@ -492,6 +594,97 @@ body {
   font-size: 13px;
 }
 
+.chat-card {
+  display: grid;
+  gap: 8px;
+}
+
+.chat-subtitle {
+  font-size: 12px;
+  color: #627d98;
+}
+
+.chat-messages {
+  border: 1px solid #d9e2ec;
+  background: #f8fafc;
+  border-radius: 8px;
+  padding: 8px;
+  max-height: 240px;
+  overflow-y: auto;
+  display: grid;
+  gap: 8px;
+}
+
+.chat-message {
+  border-radius: 8px;
+  padding: 8px;
+  font-size: 13px;
+  line-height: 1.35;
+}
+
+.chat-message p {
+  margin: 0;
+}
+
+.chat-message.user {
+  background: #e7f1ff;
+  border: 1px solid #bfd7f7;
+}
+
+.chat-message.assistant {
+  background: #ecf8f3;
+  border: 1px solid #c6e9d9;
+}
+
+.chat-role {
+  font-size: 11px;
+  font-weight: 700;
+  color: #486581;
+  margin-bottom: 4px !important;
+}
+
+.chat-loading {
+  margin: 0;
+  font-size: 12px;
+  color: #627d98;
+}
+
+.chat-error {
+  margin: 0;
+  color: #a63a3a;
+  font-size: 12px;
+}
+
+.chat-input-row {
+  display: grid;
+  grid-template-columns: minmax(0, 1fr) auto;
+  gap: 8px;
+}
+
+.chat-input-row input {
+  border: 1px solid #bcccdc;
+  border-radius: 8px;
+  padding: 8px 10px;
+  font-size: 13px;
+  color: #102a43;
+}
+
+.chat-input-row button {
+  border: none;
+  border-radius: 8px;
+  padding: 8px 12px;
+  font-size: 13px;
+  font-weight: 700;
+  color: #fff;
+  background: #1f7a8c;
+  cursor: pointer;
+}
+
+.chat-input-row button:disabled {
+  opacity: 0.5;
+  cursor: not-allowed;
+}
+
 .attempt-list {
   margin: 0;
   padding-left: 18px;
@@ -568,8 +761,12 @@ body {
     grid-template-columns: repeat(2, minmax(190px, 1fr));
   }
 
-  .opening-detail-layout {
+  .opening-detail-panels {
     grid-template-columns: 1fr;
+  }
+
+  .preview-panel {
+    margin-top: 0;
   }
 
   .practice-page-grid {
@@ -589,7 +786,11 @@ body {
   }
 
   .board-row {
-    grid-template-columns: 20px 1fr;
+    display: block;
+  }
+
+  .board-inner-row {
+    grid-template-columns: 20px minmax(0, 1fr);
     gap: 8px;
   }
 }

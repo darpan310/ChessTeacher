@@ -24,6 +24,18 @@ export function OpeningDetail({
       return new Chess().fen();
     }
   }, [selectedLine]);
+  const previewBreadcrumb = useMemo(() => {
+    const findPath = (nodes, targetId, trail = []) => {
+      for (const node of nodes ?? []) {
+        const nextTrail = [...trail, node.name];
+        if (node.id === targetId) return nextTrail;
+        const childPath = findPath(node.children ?? [], targetId, nextTrail);
+        if (childPath.length) return childPath;
+      }
+      return [];
+    };
+    return findPath(roots, selectedLine?.id);
+  }, [roots, selectedLine]);
 
   const isExpanded = (lineId) => expandedById[lineId] ?? false;
   const toggleExpanded = (lineId) => {
@@ -35,16 +47,17 @@ export function OpeningDetail({
 
   return (
     <section className="opening-detail-layout">
-      <main className="opening-detail-main">
-        <button className="back-button" onClick={onBack}>
-          ← Back to Dashboard
-        </button>
+      <button className="back-button" onClick={onBack}>
+        ← Back to Dashboard
+      </button>
 
-        <article className="opening-header-card">
-          <h2>{opening.name} · Choose Line</h2>
-          <p>{opening.hint}</p>
-        </article>
+      <article className="opening-header-card opening-header-full">
+        <h2>{opening.name} · Choose Line</h2>
+        <p>{opening.hint}</p>
+      </article>
 
+      <div className="opening-detail-panels">
+        <main className="opening-detail-main">
         <article className="line-group-card">
           <h3>Line Tree</h3>
           <div className="line-tree-grid">
@@ -133,32 +146,33 @@ export function OpeningDetail({
             ))}
           </div>
         </article>
-      </main>
+        </main>
 
-      <aside className="practice-panel preview-panel">
-        <div className="coach-card">
-          <h3>Line Preview</h3>
-          <p>{selectedLine?.name ?? "Select a line"}</p>
-        </div>
-        <div className="board-wrap preview-board-wrap">
-          <Chessboard
-            options={{
-              id: "line-preview-board",
-              position: previewFen,
-              arePiecesDraggable: false,
-              darkSquareStyle: { backgroundColor: "#b58863" },
-              lightSquareStyle: { backgroundColor: "#f0d9b5" },
-              boardStyle: {
-                borderRadius: "10px",
-                overflow: "hidden",
-                backgroundColor: "#b58863",
-                boxShadow: "0 12px 28px rgba(0, 0, 0, 0.2)",
-              },
-              showNotation: true,
-            }}
-          />
-        </div>
-      </aside>
+        <aside className="practice-panel preview-panel">
+          <div className="coach-card opening-preview-head">
+            <p className="preview-kicker">Line Preview</p>
+            <p className="preview-line-name">{[opening.name, ...previewBreadcrumb].filter(Boolean).join(" / ")}</p>
+          </div>
+          <div className="board-wrap preview-board-wrap">
+            <Chessboard
+              options={{
+                id: "line-preview-board",
+                position: previewFen,
+                arePiecesDraggable: false,
+                darkSquareStyle: { backgroundColor: "#b58863" },
+                lightSquareStyle: { backgroundColor: "#f0d9b5" },
+                boardStyle: {
+                  borderRadius: "10px",
+                  overflow: "hidden",
+                  backgroundColor: "#b58863",
+                  boxShadow: "0 12px 28px rgba(0, 0, 0, 0.2)",
+                },
+                showNotation: true,
+              }}
+            />
+          </div>
+        </aside>
+      </div>
     </section>
   );
 }

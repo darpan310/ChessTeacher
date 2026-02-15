@@ -56,6 +56,9 @@ VITE_ENGINE_DEPTH=14
 VITE_ENGINE_MOVETIME_MS=700
 VITE_ENGINE_THREADS=
 VITE_ENGINE_HASH_MB=64
+VITE_OPENAI_API_KEY=
+VITE_OPENAI_MODEL=gpt-4o-mini
+VITE_OPENAI_BASE_URL=https://api.openai.com/v1
 ```
 
 Notes:
@@ -64,6 +67,9 @@ Notes:
 - `VITE_ENGINE_MODE=server` is reserved for future backend engine integration.
 - Increase `VITE_ENGINE_DEPTH` / `VITE_ENGINE_MOVETIME_MS` for stronger analysis.
 - `VITE_ENGINE_THREADS` and `VITE_ENGINE_HASH_MB` tune engine strength vs CPU/memory usage.
+- `VITE_OPENAI_API_KEY` and `VITE_OPENAI_MODEL` configure the Chess Teacher AI chat panel.
+- `VITE_OPENAI_BASE_URL` is optional and defaults to `https://api.openai.com/v1`.
+- Because this app is currently client-side only, Vite-exposed env vars are shipped to the browser. For production, move OpenAI calls to a backend proxy.
 
 ## Current Functionality
 
