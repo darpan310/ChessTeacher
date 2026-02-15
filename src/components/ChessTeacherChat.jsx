@@ -1,10 +1,12 @@
 import { useEffect, useMemo, useRef, useState } from "react";
+import ReactMarkdown from "react-markdown";
+import remarkGfm from "remark-gfm";
 import {
   CHESS_TEACHER_PROMPT_VERSION,
   buildChessTeacherSystemPrompt,
 } from "../config/chessTeacherPrompt";
 
-const DEFAULT_MODEL = "gpt-4o-mini";
+const DEFAULT_MODEL = "gpt-5.1";
 const DEFAULT_BASE_URL = "https://api.openai.com/v1";
 
 function buildContextText(context) {
@@ -18,7 +20,6 @@ function buildContextText(context) {
 
 export function ChessTeacherChat({
   context,
-  title = "Chess Teacher AI",
   apiKey = import.meta.env.VITE_OPENAI_API_KEY,
   model = import.meta.env.VITE_OPENAI_MODEL || DEFAULT_MODEL,
   baseUrl = import.meta.env.VITE_OPENAI_BASE_URL || DEFAULT_BASE_URL,
@@ -162,16 +163,19 @@ export function ChessTeacherChat({
 
   return (
     <div className="coach-card chat-card">
-      <h3>{title}</h3>
-      <p className="chat-subtitle">
-        Model: <strong>{model}</strong>
-      </p>
 
       <div className="chat-messages" ref={listRef}>
         {messages.map((msg) => (
-          <div key={msg.id} className={`chat-message ${msg.role}`}>
-            <p className="chat-role">{msg.role === "user" ? "You" : "Coach"}</p>
-            <p>{msg.content}</p>
+          <div key={msg.id} className={`chat-row ${msg.role}`}>
+            <div className={`chat-message ${msg.role}`}>
+              {msg.role === "assistant" ? (
+                <div className="chat-markdown">
+                  <ReactMarkdown remarkPlugins={[remarkGfm]}>{msg.content}</ReactMarkdown>
+                </div>
+              ) : (
+                <p className="chat-text">{msg.content}</p>
+              )}
+            </div>
           </div>
         ))}
         {isLoading ? <p className="chat-loading">Streaming response...</p> : null}

@@ -1,6 +1,7 @@
-import { useEffect, useMemo, useState } from "react";
+import { useEffect, useMemo, useRef, useState } from "react";
 import { Chess } from "chess.js";
 import { Chessboard } from "react-chessboard";
+import { ArrowUpDown, RotateCcw, Undo2 } from "lucide-react";
 import { openingLines } from "../lib/openingTraining";
 import { ChessTeacherChat } from "./ChessTeacherChat";
 import bP from "../../mockups/library-pieces/bP.svg";
@@ -56,6 +57,7 @@ export function PracticeSession({
   status,
   sessionActive,
   isDeviationMode,
+  stockfishTakeoverActive,
   suggestedMove,
   suggestedMoveIdea,
   moveLog,
@@ -67,6 +69,12 @@ export function PracticeSession({
   whiteEvalRatio,
 }) {
   const [selectedSquare, setSelectedSquare] = useState(null);
+  const moveListRef = useRef(null);
+  const boardCardRef = useRef(null);
+  const [sidePanelHeight, setSidePanelHeight] = useState(null);
+  const [isWideLayout, setIsWideLayout] = useState(
+    typeof window !== "undefined" ? window.innerWidth > 1280 : true
+  );
   const lines = openingLines(opening);
   const selectedLine = lines.find((line) => line.id === selectedLineId) ?? lines[0];
   const movePairs = useMemo(() => {
@@ -80,6 +88,34 @@ export function PracticeSession({
     }
     return pairs;
   }, [moveLog]);
+
+  useEffect(() => {
+    if (!moveListRef.current) return;
+    moveListRef.current.scrollTop = moveListRef.current.scrollHeight;
+  }, [movePairs.length]);
+
+  useEffect(() => {
+    const onResize = () => setIsWideLayout(window.innerWidth > 1280);
+    onResize();
+    window.addEventListener("resize", onResize);
+    return () => window.removeEventListener("resize", onResize);
+  }, []);
+
+  useEffect(() => {
+    if (!isWideLayout) {
+      setSidePanelHeight(null);
+      return;
+    }
+    if (!boardCardRef.current || typeof ResizeObserver === "undefined") return;
+
+    const node = boardCardRef.current;
+    const syncHeight = () => setSidePanelHeight(Math.round(node.getBoundingClientRect().height));
+    syncHeight();
+
+    const observer = new ResizeObserver(() => syncHeight());
+    observer.observe(node);
+    return () => observer.disconnect();
+  }, [isWideLayout, boardFen, moveLog.length]);
   const lastMoveHighlightStyles = useMemo(() => {
     if (!moveLog.length) return {};
     const chess = new Chess();
@@ -143,8 +179,7 @@ export function PracticeSession({
     [lastMoveHighlightStyles, legalMoveSquareStyles]
   );
   const suggestedArrow = useMemo(() => {
-    const stableEngineBestmove =
-      isDeviationMode && engineAnalysis?.fen === boardFen ? engineAnalysis?.bestmoveUci : null;
+    const stableEngineBestmove = engineAnalysis?.fen === boardFen ? engineAnalysis?.bestmoveUci : null;
 
     if (suggestedMove?.san) {
       const chess = new Chess(boardFen);
@@ -163,7 +198,8 @@ export function PracticeSession({
     }
 
     const uci = stableEngineBestmove;
-    if (uci && uci.length >= 4 && uci !== "(none)") {
+    const canUseEngineSuggestion = isDeviationMode || stockfishTakeoverActive;
+    if (canUseEngineSuggestion && uci && uci.length >= 4 && uci !== "(none)") {
       return {
         startSquare: uci.slice(0, 2),
         endSquare: uci.slice(2, 4),
@@ -171,7 +207,7 @@ export function PracticeSession({
       };
     }
     return null;
-  }, [boardFen, suggestedMove, engineAnalysis, isDeviationMode]);
+  }, [boardFen, suggestedMove, engineAnalysis, isDeviationMode, stockfishTakeoverActive]);
 
   const arrowsPayload = suggestedArrow
     ? [
@@ -191,6 +227,10 @@ export function PracticeSession({
       setSelectedSquare(null);
     }
   }, [boardFen, selectedSquare]);
+
+  useEffect(() => {
+    setSelectedSquare(null);
+  }, [orientation, selectedLineId]);
 
   const asBoardSquare = (...values) =>
     values.find((value) => typeof value === "string" && /^[a-h][1-8]$/.test(value)) ?? null;
@@ -372,19 +412,7 @@ export function PracticeSession({
       </header>
 
       <div className="practice-page-grid">
-        <main className="practice-board-card">
-          <div className="practice-controls">
-            <button className="control-btn control-btn-primary" onClick={onResetToLine}>
-              Reset to Selected Line
-            </button>
-            <button className="control-btn control-btn-danger" onClick={onUndoMove} disabled={!canUndoMove}>
-              Undo Move
-            </button>
-            <button className="control-btn control-btn-secondary" onClick={onFlipBoard}>
-              Flip Board
-            </button>
-          </div>
-
+        <main className="practice-board-card" ref={boardCardRef}>
           <div className="board-row">
             <div className="board-wrap">
               <div className="capture-strip capture-strip-top">
@@ -406,6 +434,7 @@ export function PracticeSession({
 
                 <div className="board-core">
                   <Chessboard
+                    key={`practice-board-${selectedLineId}-${orientation}`}
                     options={{
                       id: "practice-board",
                       position: boardFen,
@@ -447,96 +476,80 @@ export function PracticeSession({
           <p className="status-bar">{status}</p>
         </main>
 
-        <aside className="practice-panel">
-          {isDeviationMode ? (
-            <p className="deviation-indicator">
-              Deviation mode active: you are now playing both sides. Follow Stockfish best moves.
-            </p>
-          ) : null}
-
-          <div className="coach-card">
-            <h3>Suggested Next Move</h3>
-            {!sessionActive ? (
-              <p>Start Learn from line selection to begin.</p>
-            ) : suggestedMove ? (
-              <>
-                <p>
-                  Play <strong>{suggestedMove.san}</strong> (ply {suggestedMove.ply})
-                </p>
-                <p>{suggestedMoveIdea}</p>
-              </>
-            ) : (
-              <p>
-                {isDeviationMode
-                  ? "Line guidance paused after deviation. Use Stockfish suggestion below."
-                  : "Line complete or position out of sequence. Reset to continue."}
-              </p>
-            )}
-          </div>
-
-          <div className="coach-card">
-            <h3>Stockfish Analysis</h3>
-            <p>{engineStatus}</p>
-            {engineAnalysis ? (
-              <p>
-                Best move: <strong>{engineAnalysis.bestmoveSan ?? engineAnalysis.bestmoveUci}</strong> | Eval:{" "}
-                <strong>{whiteEvalLabel}</strong>
-              </p>
-            ) : null}
-          </div>
-
-          <div className="coach-card">
-            <h3>Recorded Moves</h3>
-            {movePairs.length === 0 ? (
-              <p>No moves recorded yet.</p>
-            ) : (
-              <div className="move-pairs">
-                {movePairs.map((pair) => (
-                  <div key={pair.moveNumber} className="move-pair-row">
-                    <span className="move-num">{pair.moveNumber}.</span>
-                    <span className="move-white">{pair.white}</span>
-                    <span className="move-black">{pair.black}</span>
-                  </div>
-                ))}
+        <aside
+          className="practice-panel practice-side-panel"
+          style={isWideLayout && sidePanelHeight ? { height: `${sidePanelHeight}px` } : undefined}
+        >
+          <div className="practice-side-content">
+            <div className="coach-card recorded-moves-card">
+              <div className="recorded-moves-head">
+                <h3>Recorded Moves</h3>
+                <div className="recorded-moves-actions">
+                  <button
+                    className="icon-action-btn reset"
+                    onClick={onResetToLine}
+                    title="Reset to selected line"
+                    aria-label="Reset to selected line"
+                  >
+                    <RotateCcw size={18} aria-hidden="true" />
+                  </button>
+                  <button
+                    className="icon-action-btn undo"
+                    onClick={onUndoMove}
+                    disabled={!canUndoMove}
+                    title="Undo move"
+                    aria-label="Undo move"
+                  >
+                    <Undo2 size={18} aria-hidden="true" />
+                  </button>
+                  <button
+                    className="icon-action-btn flip"
+                    onClick={onFlipBoard}
+                    title="Flip board"
+                    aria-label="Flip board"
+                  >
+                    <ArrowUpDown size={18} aria-hidden="true" />
+                  </button>
+                </div>
               </div>
-            )}
-          </div>
+              <div className="recorded-moves-body">
+                {movePairs.length === 0 ? (
+                  <p>No moves recorded yet.</p>
+                ) : (
+                  <div className="move-pairs">
+                    <div ref={moveListRef} className="move-pairs-scroll">
+                      {movePairs.map((pair) => (
+                        <div key={pair.moveNumber} className="move-pair-row">
+                          <span className="move-num">{pair.moveNumber}.</span>
+                          <span className="move-white">{pair.white}</span>
+                          <span className="move-black">{pair.black}</span>
+                        </div>
+                      ))}
+                    </div>
+                  </div>
+                )}
+              </div>
+            </div>
 
-          <div className="coach-card">
-            <h3>Move Ideas</h3>
-            {recentMoveIdeas.length === 0 ? (
-              <p>Move explanations will appear as the line progresses.</p>
-            ) : (
-              <ul className="attempt-list">
-                {recentMoveIdeas.map((item) => (
-                  <li key={`${item.ply}-${item.san}`}>
-                    <strong>
-                      {item.ply}. {item.san}
-                    </strong>
-                    : {item.idea}
-                  </li>
-                ))}
-              </ul>
-            )}
+            <ChessTeacherChat
+              context={{
+                opening: opening.name,
+                line: selectedLine.name,
+                boardFen,
+                orientation,
+                status,
+                sessionActive,
+                deviationMode: isDeviationMode,
+                stockfishTakeoverActive,
+                suggestedMove: suggestedMove?.san ?? null,
+                suggestedMovePly: suggestedMove?.ply ?? null,
+                engineStatus,
+                engineBestMove: engineAnalysis?.bestmoveSan ?? engineAnalysis?.bestmoveUci ?? null,
+                engineEval: whiteEvalLabel,
+                moveLog,
+              }}
+            />
           </div>
-
-          <ChessTeacherChat
-            context={{
-              opening: opening.name,
-              line: selectedLine.name,
-              boardFen,
-              orientation,
-              status,
-              sessionActive,
-              deviationMode: isDeviationMode,
-              suggestedMove: suggestedMove?.san ?? null,
-              suggestedMovePly: suggestedMove?.ply ?? null,
-              engineStatus,
-              engineBestMove: engineAnalysis?.bestmoveSan ?? engineAnalysis?.bestmoveUci ?? null,
-              engineEval: whiteEvalLabel,
-              moveLog,
-            }}
-          />
         </aside>
       </div>
     </section>

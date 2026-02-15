@@ -1,6 +1,6 @@
 import { Chess } from "chess.js";
 
-const DEFAULT_TARGET_PLY = 36;
+const DEFAULT_TARGET_PLY = 12;
 const EXPANDED_LINE_CACHE = new Map();
 const AUTO_CHILDREN_CACHE = new Map();
 
@@ -89,13 +89,54 @@ function numberedMovesString(sans) {
   return out.join(" ");
 }
 
-function buildAutoChildrenForLine(line, count = 2, extraPlies = 6) {
+function truncatePgnToPly(pgn, targetPly = DEFAULT_TARGET_PLY) {
+  if (!pgn) return { pgn: "", sans: [] };
+  const parsed = loadGameFromPgn(pgn);
+  const sans = parsed.history().slice(0, targetPly);
+  if (!sans.length) return { pgn: "", sans: [] };
+
+  const replay = new Chess();
+  for (const san of sans) {
+    try {
+      replay.move(san);
+    } catch {
+      break;
+    }
+  }
+  return { pgn: replay.pgn(), sans: replay.history() };
+}
+
+function normalizeLine(line, targetPly = DEFAULT_TARGET_PLY) {
+  const { pgn, sans } = truncatePgnToPly(line?.pgn, line?.targetPly ?? targetPly);
+  const normalizedChildren = (line?.children ?? []).map((child) => normalizeLine(child, targetPly));
+  return {
+    ...line,
+    pgn,
+    moves: numberedMovesString(sans),
+    targetPly: line?.targetPly ?? targetPly,
+    children: normalizedChildren,
+  };
+}
+
+function buildAutoChildrenForLine(line, count = 2) {
   if (!line?.pgn) return [];
-  const cacheKey = `${line.id}|${line.pgn}|${count}|${extraPlies}`;
+  const targetPly = line?.targetPly ?? DEFAULT_TARGET_PLY;
+  const cacheKey = `${line.id}|${line.pgn}|${count}|${targetPly}`;
   if (AUTO_CHILDREN_CACHE.has(cacheKey)) return AUTO_CHILDREN_CACHE.get(cacheKey);
 
   const base = loadGameFromPgn(line.pgn);
-  const candidates = base.moves({ verbose: true });
+  const baseSans = base.history();
+  const prefixSans = baseSans.slice(0, Math.max(0, targetPly - 2));
+  const prefix = new Chess();
+  for (const san of prefixSans) {
+    try {
+      prefix.move(san);
+    } catch {
+      break;
+    }
+  }
+
+  const candidates = prefix.moves({ verbose: true });
   if (!candidates.length) return [];
 
   const selected = [...candidates]
@@ -103,9 +144,12 @@ function buildAutoChildrenForLine(line, count = 2, extraPlies = 6) {
     .slice(0, count);
 
   const children = selected.map((candidate, idx) => {
-    const chess = loadGameFromPgn(line.pgn);
+    const chess = new Chess();
+    for (const san of prefix.history()) {
+      chess.move(san);
+    }
     chess.move(candidate);
-    while (!chess.isGameOver() && chess.history().length < base.history().length + extraPlies) {
+    while (!chess.isGameOver() && chess.history().length < targetPly) {
       const nextMove = chooseContinuationMove(chess, `${line.id}|auto|${idx}`);
       if (!nextMove) break;
       chess.move(nextMove);
@@ -133,7 +177,8 @@ export function openingLineRoots(opening) {
       ? opening.lines
       : [opening?.mainline, ...(opening?.variations ?? [])].filter(Boolean);
 
-  return roots.map((line) => {
+  return roots.map((rawLine) => {
+    const line = normalizeLine(rawLine);
     const existingChildren = Array.isArray(line?.children) ? line.children : [];
     if (existingChildren.length > 0) return line;
     return {
@@ -149,6 +194,9 @@ function getExpandedLinePgn(line) {
 
   const chess = loadGameFromPgn(line.pgn);
   const targetPly = line.targetPly ?? DEFAULT_TARGET_PLY;
+  while (chess.history().length > targetPly) {
+    chess.undo();
+  }
   while (!chess.isGameOver() && chess.history().length < targetPly) {
     const nextMove = chooseContinuationMove(chess, line.id ?? line.name ?? "line");
     if (!nextMove) break;

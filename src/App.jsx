@@ -23,7 +23,7 @@ export default function App() {
   const [view, setView] = useState("dashboard");
   const [selectedOpeningId, setSelectedOpeningId] = useState(ALL_OPENINGS[0].id);
   const [selectedLineId, setSelectedLineId] = useState(getDefaultLine(ALL_OPENINGS[0])?.id ?? "");
-  const [orientation, setOrientation] = useState("white");
+  const [isBoardFlipped, setIsBoardFlipped] = useState(false);
   const [status, setStatus] = useState("Choose an opening card, then select a line.");
 
   const initialBoard = initBoardStateFromLine();
@@ -32,11 +32,14 @@ export default function App() {
   const [moveLog, setMoveLog] = useState(initialBoard.history);
   const [attempts, setAttempts] = useState([]);
   const [session, setSession] = useState(initialSession);
+  const [stockfishTakeoverActive, setStockfishTakeoverActive] = useState(false);
   const [undoStack, setUndoStack] = useState([]);
   const [isComputerThinking, setIsComputerThinking] = useState(false);
   const [openingsById, setOpeningsById] = useState({});
   const autoReplyTimeoutRef = useRef(null);
   const stateSnapshotRef = useRef(null);
+  const orientationForOpening = (opening) =>
+    getUserSideForOpening(opening) === "w" ? "white" : "black";
 
   const clearPendingAutoReply = () => {
     if (autoReplyTimeoutRef.current) {
@@ -52,9 +55,10 @@ export default function App() {
       moveLog,
       attempts,
       session,
+      stockfishTakeoverActive,
       status,
     };
-  }, [boardFen, moveLog, attempts, session, status]);
+  }, [boardFen, moveLog, attempts, session, stockfishTakeoverActive, status]);
 
   useEffect(() => {
     return () => {
@@ -75,6 +79,7 @@ export default function App() {
       moveLog: [...state.moveLog],
       attempts: state.attempts.map((item) => ({ ...item })),
       session: cloneSession(state.session),
+      stockfishTakeoverActive: Boolean(state.stockfishTakeoverActive),
       status: state.status,
     };
   };
@@ -91,6 +96,7 @@ export default function App() {
     setMoveLog(snapshot.moveLog);
     setAttempts(snapshot.attempts);
     setSession(cloneSession(snapshot.session));
+    setStockfishTakeoverActive(Boolean(snapshot.stockfishTakeoverActive));
     setStatus(snapshot.status);
   };
 
@@ -107,6 +113,12 @@ export default function App() {
   );
 
   const userSide = useMemo(() => getUserSideForOpening(selectedOpening), [selectedOpening]);
+  const baseOrientation = userSide === "w" ? "white" : "black";
+  const orientation = isBoardFlipped
+    ? baseOrientation === "white"
+      ? "black"
+      : "white"
+    : baseOrientation;
   const linePlyCount = session.plan.length;
   const suggestedMove = useMemo(() => {
     if (!session.active) return null;
@@ -154,10 +166,12 @@ export default function App() {
     const board = initBoardStateFromLine();
     setSelectedOpeningId(openingSummary.id);
     setSelectedLineId(getDefaultLine(openingSummary)?.id ?? "");
+    setIsBoardFlipped(false);
     setBoardFen(board.fen);
     setMoveLog(board.history);
     setAttempts([]);
     setSession(initSessionFromLine(getDefaultLine(openingSummary)));
+    setStockfishTakeoverActive(false);
     setUndoStack([]);
     setStatus(`Loading ${openingSummary.name}...`);
     setView("opening");
@@ -167,6 +181,7 @@ export default function App() {
       setOpeningsById((prev) => ({ ...prev, [openingId]: openingFull }));
       const defaultLine = getDefaultLine(openingFull);
       setSelectedLineId(defaultLine?.id ?? "");
+      setIsBoardFlipped(false);
       setSession(initSessionFromLine(defaultLine));
       setStatus(`Opened ${openingFull.name}. Mainline selected.`);
     } catch (error) {
@@ -198,9 +213,11 @@ export default function App() {
     );
 
     setSelectedLineId(line.id);
+    setIsBoardFlipped(false);
     setBoardFen(advanced.fen);
     setMoveLog(advanced.history);
     setAttempts([]);
+    setStockfishTakeoverActive(false);
     setUndoStack([]);
     setSession({
       ...nextSession,
@@ -208,7 +225,8 @@ export default function App() {
       stepIndex: advanced.stepIndex,
     });
     if (advanced.completed) {
-      setStatus(`Started learn on ${line.name}. Line already complete.`);
+      setStockfishTakeoverActive(true);
+      setStatus(`Started learn on ${line.name}. Seeded line complete. Stockfish takeover active.`);
     } else if (advanced.autoMoves.length > 0) {
       setStatus(`Started learn on ${line.name}. Computer played: ${advanced.autoMoves.join(" ")}. Your move.`);
     } else {
@@ -231,6 +249,7 @@ export default function App() {
 
     const baseBoard = initBoardStateFromLine();
     const baseSession = initSessionFromLine(selectedLine);
+    setIsBoardFlipped(false);
 
     if (session.active) {
       const advanced = advanceComputerMoves(
@@ -246,6 +265,7 @@ export default function App() {
         active: !advanced.completed,
         stepIndex: advanced.stepIndex,
       });
+      setStockfishTakeoverActive(false);
       setAttempts([]);
       setUndoStack([]);
       setStatus(`Reset ${selectedLine.name}. Learning restarted.`);
@@ -255,6 +275,7 @@ export default function App() {
     setMoveLog(baseBoard.history);
     setBoardFen(baseBoard.fen);
     setSession(baseSession);
+    setStockfishTakeoverActive(false);
     setAttempts([]);
     setUndoStack([]);
     setStatus(`Reset to ${selectedLine.name}. Click Start to begin again.`);
@@ -337,12 +358,17 @@ export default function App() {
         setAttempts((prev) => [{ label: `${move.san} (free play)`, inLine: true }, ...prev].slice(0, 8));
         setBoardFen(chess.fen());
         setMoveLog((prev) => [...prev, move.san]);
-        setStatus(`Free play: played ${move.san}. Start Learn for guided validation.`);
+        setStatus(
+          stockfishTakeoverActive
+            ? `Stockfish takeover: played ${move.san}. Continue with engine suggestions.`
+            : `Free play: played ${move.san}. Start Learn for guided validation.`
+        );
         return true;
       }
 
       if (session.deviated) {
         recordUndoSnapshot();
+        setStockfishTakeoverActive(false);
         setBoardFen(chess.fen());
         setMoveLog((prev) => [...prev, move.san]);
         setAttempts((prev) => [{ label: `${move.san} (deviation mode)`, inLine: false }, ...prev].slice(0, 8));
@@ -361,6 +387,7 @@ export default function App() {
       const inLine = expected.san === move.san;
       if (!inLine) {
         recordUndoSnapshot();
+        setStockfishTakeoverActive(false);
         setBoardFen(chess.fen());
         setMoveLog((prev) => [...prev, move.san]);
         setSession((prev) => ({ ...prev, deviated: true, active: true }));
@@ -407,9 +434,14 @@ export default function App() {
             deviated: false,
             active: !completed,
           }));
+          if (completed) setStockfishTakeoverActive(true);
           setIsComputerThinking(false);
           if (completed) {
-            setStatus(`Learn: correct ${move.san}. Computer played ${advanced.autoMoves.join(" ")}. Line complete.`);
+            setStatus(
+              `Learn: correct ${move.san}. Computer played ${advanced.autoMoves.join(
+                " "
+              )}. Seeded line complete. Stockfish takeover active.`
+            );
             return;
           }
           setStatus(`Learn: correct ${move.san}. Computer played ${advanced.autoMoves.join(" ")}. Your move.`);
@@ -424,8 +456,9 @@ export default function App() {
         deviated: false,
         active: !completed,
       }));
+      if (completed) setStockfishTakeoverActive(true);
       if (completed) {
-        setStatus(`Learn: correct ${move.san}. Line complete.`);
+        setStatus(`Learn: correct ${move.san}. Seeded line complete. Stockfish takeover active.`);
         return true;
       }
       setStatus(`Learn: correct ${move.san}. Your move.`);
@@ -465,7 +498,7 @@ export default function App() {
               boardFen={boardFen}
               orientation={orientation}
               onDrop={onDrop}
-              onFlipBoard={() => setOrientation((value) => (value === "white" ? "black" : "white"))}
+              onFlipBoard={() => setIsBoardFlipped((value) => !value)}
               onUndoMove={undoLastMove}
               canUndoMove={undoStack.length > 0}
               onResetToLine={resetToSelectedLine}
@@ -474,6 +507,7 @@ export default function App() {
               status={status}
               sessionActive={session.active}
               isDeviationMode={session.deviated}
+              stockfishTakeoverActive={stockfishTakeoverActive}
               suggestedMove={suggestedMove}
               suggestedMoveIdea={suggestedMoveIdea}
               moveLog={moveLog}
